@@ -7,7 +7,7 @@ Project ini dibuat untuk Sekolah SMAS Maitreyawira Tanjungpinang
 
 - [@cytus2nd](https://www.github.com/cytus2nd)
 - [@CytusTheBeginner](https://www.github.com/cytusthebeginner)
-- [@CytusTheBeginner](https://www.github.com/cytusthebeginner)
+- [@RioMelows](https://www.github.com/riomelows)
 
 
 ## Screenshots
