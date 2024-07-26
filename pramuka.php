@@ -1,14 +1,14 @@
 <?php 
 session_start();
-$title = 'Data User';
+$title = 'Kas Pramuka';
 
 if (!isset($_SESSION['login'])) {
     header('Location: login.php');
     exit;
 }
-?>
 
-<?php include 'layout/header.php'; ?>
+include 'layout/header.php';
+?>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -17,11 +17,11 @@ if (!isset($_SESSION['login'])) {
         <div class="container-fluid">
             <div class="row mb-1">
                 <div class="col-sm-6">
-                    <h1 class="m-0 fw-bold">User</h1>
+                    <h1 class="m-0 fw-bold">Kas Pramuka</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Data User</li>
+                        <li class="breadcrumb-item">Kas Organisasi Pramuka</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

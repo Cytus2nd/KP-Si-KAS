@@ -13,7 +13,7 @@ if (isset($_POST['register'])) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Siapkan statement SQL
-    $stmt = $db->prepare("INSERT INTO users (username, password, nama, jabatan) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, password, nama, jabatan) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $username, $hashed_password, $nama, $jabatan);
 
     if ($stmt->execute()) {

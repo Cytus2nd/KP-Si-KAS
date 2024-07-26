@@ -1,8 +1,8 @@
 <?php
     function select($query) {
         // koneksi database global
-        global $db;
-        $result = mysqli_query($db, $query);
+        global $conn;
+        $result = mysqli_query($conn, $query);
         $rows = [];
 
         while ($row = mysqli_fetch_assoc($result)) {

@@ -24,7 +24,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -77,7 +77,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="starter.html" class="nav-link">
+                            <a href="dashboard.php" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -85,7 +85,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="organisasi.php" class="nav-link">
                                 <i class="nav-icon fas fa-sitemap"></i>
                                 <p>
                                     Organisasi
@@ -93,7 +93,7 @@
                             </a>
                         </li>
                         <li class="nav-item menu-close">
-                            <a href="#" class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon fas fa-wallet"></i>
                                 <p>
                                     Pencatatan Kas
@@ -102,25 +102,31 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
+                                    <a href="kas_masuk.php" class="nav-link">
+                                        <i class="fas fa-dollar-sign nav-icon"></i>
+                                        <p>Kas Masuk</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="osis.php" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas OSIS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="pramuka.php" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas Pramuka</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="pmr.php" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas PMR</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
+                                    <a href="kkr.php" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas KKR</p>
                                     </a>
@@ -128,10 +134,18 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="user.php" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="osis_masuk.php" class="nav-link">
+                                <i class="nav-icon fas fa-server"></i>
+                                <p>
+                                    Logs OSIS
                                 </p>
                             </a>
                         </li>

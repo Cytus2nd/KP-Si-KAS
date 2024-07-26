@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 $title = 'Dashboard';
 
@@ -7,24 +7,25 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-$username = $_SESSION['username'];
+$nama = $_SESSION['nama'];
+$jabatan = $_SESSION['jabatan']; // assuming jabatan is stored in session
 
+include 'backend/reading_data.php';
+include 'layout/header.php';
 ?>
-
-<?php include 'layout/header.php'; ?>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-1">
                 <div class="col-sm-6">
-                    <h1 class="m-0 fw-bold">Dashboard</h1>
+                    <h1 class="m-0 fw-bold text-primary">Dashboard</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Dashboard Page</li>
+                        <li class="breadcrumb-item">Halaman Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -35,68 +36,137 @@ $username = $_SESSION['username'];
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <div class="row">
-                <h5>Selamat Datang, <?= $username ?></h3>
+            <h5 class="pb-2">Selamat Datang, <?= htmlspecialchars($nama) ?></h5>
+
+            <!-- Bagian OSIS -->
+            <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) { ?>
+            <div class="row mt-3">
+                <h6 class="fw-bold">Kas OSIS</h6>
                 <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="./assets/img/imgs.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">Pemasukan : $pemasukan</p>
+                    <div class="card" style="width: 18rem">
+                        <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pemasukan : Rp <span id="pemasukan_osis"><?= number_format($pemasukan_osis) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem; height: fit;">
+                        <img class="card-img-top" src="./assets/img/1.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pengeluaran : Rp <span id="pengeluaran_osis"><?= number_format($pengeluaran_osis) ?></span></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="./assets/img/imgs.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">Pengeluaran : $pengeluaran</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="./assets/img/imgs.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">Total Kas : $total_kas</p>
+                        <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_osis"><?= number_format($total_kas_osis) ?></span></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <!-- DONUT CHART -->
-                    <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Pemasukan</h3>
+            <?php } ?>
+
+            <!-- Bagian Pramuka -->
+            <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 4) { ?>
+            <div class="row mt-3">
+                <h6 class="fw-bold">Kas Pramuka</h6>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem">
+                        <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pemasukan : Rp <span id="pemasukan_pramuka"><?= number_format($pemasukan_pramuka) ?></span></p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <canvas id="donutchart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                    <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
                 </div>
-                <div class="col-lg-6">
-                    <!-- DONUT CHART -->
-                    <div class="card card-danger">
-                    <div class="card-header">
-                        <h3 class="card-title">Pengeluaran</h3>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem; height: fit;">
+                        <img class="card-img-top" src="./assets/img/1.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pengeluaran : Rp <span id="pengeluaran_pramuka"><?= number_format($pengeluaran_pramuka) ?></span></p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <canvas id="donutchart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_pramuka"><?= number_format($total_kas_pramuka) ?></span></p>
+                        </div>
                     </div>
-                    <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
                 </div>
             </div>
-            
+            <?php } ?>
+
+            <!-- Bagian PMR -->
+            <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 5) { ?>
+            <div class="row mt-3">
+                <h6 class="fw-bold">Kas PMR</h6>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem">
+                        <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pemasukan : Rp <span id="pemasukan_pmr"><?= number_format($pemasukan_pmr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem; height: fit;">
+                        <img class="card-img-top" src="./assets/img/1.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pengeluaran : Rp <span id="pengeluaran_pmr"><?= number_format($pengeluaran_pmr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_pmr"><?= number_format($total_kas_pmr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+
+            <!-- Bagian KKR -->
+            <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 6) { ?>
+            <div class="row mt-3">
+                <h6 class="fw-bold">Kas KKR</h6>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem">
+                        <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pemasukan : Rp <span id="pemasukan_kkr"><?= number_format($pemasukan_kkr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem; height: fit;">
+                        <img class="card-img-top" src="./assets/img/1.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Pengeluaran : Rp <span id="pengeluaran_kkr"><?= number_format($pengeluaran_kkr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
+                        <div class="card-body d-flex justify-content-center">
+                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_kkr"><?= number_format($total_kas_kkr) ?></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
 
 <?php include 'layout/footer.php'; ?>

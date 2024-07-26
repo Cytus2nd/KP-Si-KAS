@@ -20,57 +20,7 @@
 <script src="app/dist/js/adminlte.min.js"></script>
 <!-- ChartJS -->
 <script src="app/plugins/chart.js/Chart.min.js"></script>
-<script>
-    const ctx = document.getElementById('donutchart');
 
-    new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Pemasukan', 'Pengeluaran'],
-      datasets: [{
-        label: '',
-        data: [200000, 100000],
-        borderWidth: 1,
-        backgroundColor: [
-        'blue',   // Warna untuk Pemasukan
-        'red'     // Warna untuk Pengeluaran
-      ]
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-
-  const ctz = document.getElementById('donutchart2');
-
-    new Chart(ctz, {
-    type: 'doughnut',
-    data: {
-      labels: ['Pengeluaran', 'Pemasukan'],
-      datasets: [{
-        label: '',
-        data: [100000, 200000],
-        borderWidth: 1,
-        backgroundColor: [
-        'red',   // Warna untuk Pemasukan
-        'blue'     // Warna untuk Pengeluaran
-      ]
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
 
 </body>
 

@@ -5,8 +5,8 @@ $title = 'Login';
 
 if (isset($_POST['login'])) {
   // Ambil inputan user
-  $username = mysqli_real_escape_string($db, $_POST['username']);
-  $password = mysqli_real_escape_string($db, $_POST['password']);
+  $username = mysqli_real_escape_string($conn, $_POST['username']);
+  $password = mysqli_real_escape_string($conn, $_POST['password']);
   
   // Cek apakah jabatan di-set atau tidak
   if (!isset($_POST['jabatan']) || $_POST['jabatan'] == "0") {
@@ -15,7 +15,7 @@ if (isset($_POST['login'])) {
     $jabatan = $_POST['jabatan'];
 
     // Cek usn
-    $result = mysqli_query($db, "SELECT * FROM users WHERE username='$username'");
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
 
     if (mysqli_num_rows($result) == 1) {
         // Ambil hasil query
@@ -120,7 +120,9 @@ if (isset($_POST['login'])) {
                         <option value="1">Kepala Sekolah</option>
                         <option value="2">Waka Kesiswaan</option>
                         <option value="3">Bendahara OSIS</option>
-                        <option value="4">Bendahara</option>
+                        <option value="4">Bendahara Pramuka</option>
+                        <option value="5">Bendahara PMR</option>
+                        <option value="6">Bendahara KKR</option>
                     </select>
                     <div class="input-group-append">
                         <div class="input-group-text">
