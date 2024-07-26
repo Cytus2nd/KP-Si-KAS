@@ -17,7 +17,7 @@ include 'layout/header.php';
         <div class="container-fluid">
             <div class="row mb-1">
                 <div class="col-sm-6">
-                    <h1 class="m-0 fw-bold">Kas Pramuka</h1>
+                    <h1 class="m-0 fw-bold text-primary">Kas Pramuka</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">

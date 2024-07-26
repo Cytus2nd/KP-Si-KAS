@@ -36,12 +36,12 @@ include 'layout/header.php';
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <h5 class="pb-2">Selamat Datang, <?= htmlspecialchars($nama) ?></h5>
+            <h5 class="pb-2">Selamat Datang, <?= htmlspecialchars($nama) ?>.</h5>
 
             <!-- Bagian OSIS -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) { ?>
             <div class="row mt-3">
-                <h6 class="fw-bold">Kas OSIS</h6>
+                <h5 class="fw-bold pb-1">Summary Kas OSIS</h5>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
@@ -62,7 +62,7 @@ include 'layout/header.php';
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
-                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_osis"><?= number_format($total_kas_osis) ?></span></p>
+                            <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_osis"><?= number_format($total_kas_osis) ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ include 'layout/header.php';
             <!-- Bagian Pramuka -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 4) { ?>
             <div class="row mt-3">
-                <h6 class="fw-bold">Kas Pramuka</h6>
+                <h5 class="fw-bold pb-1">Summary Kas Pramuka</h5>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
@@ -93,7 +93,7 @@ include 'layout/header.php';
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
-                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_pramuka"><?= number_format($total_kas_pramuka) ?></span></p>
+                            <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_pramuka"><?= number_format($total_kas_pramuka) ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ include 'layout/header.php';
             <!-- Bagian PMR -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 5) { ?>
             <div class="row mt-3">
-                <h6 class="fw-bold">Kas PMR</h6>
+                <h5 class="fw-bold pb-1">Summary Kas PMR</h5>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
@@ -124,7 +124,7 @@ include 'layout/header.php';
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
-                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_pmr"><?= number_format($total_kas_pmr) ?></span></p>
+                            <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_pmr"><?= number_format($total_kas_pmr) ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ include 'layout/header.php';
             <!-- Bagian KKR -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 6) { ?>
             <div class="row mt-3">
-                <h6 class="fw-bold">Kas KKR</h6>
+                <h5 class="fw-bold pb-1">Summary Kas KKR</h5>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
@@ -155,7 +155,7 @@ include 'layout/header.php';
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="./assets/img/3.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
-                            <p class="fs-6 fw-bold card-text">Total Kas : Rp <span id="total_kas_kkr"><?= number_format($total_kas_kkr) ?></span></p>
+                            <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_kkr"><?= number_format($total_kas_kkr) ?></span></p>
                         </div>
                     </div>
                 </div>

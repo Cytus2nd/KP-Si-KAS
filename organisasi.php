@@ -21,7 +21,7 @@ if (!isset($_SESSION['login'])) {
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Data Organisasi</li>
+                        <li class="breadcrumb-item">Data Lengkap Organisasi</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

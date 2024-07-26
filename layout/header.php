@@ -1,5 +1,6 @@
 <?php 
     include 'config/app.php';
+    $nama = $_SESSION['nama'];
 ?>
 
 <!DOCTYPE html>
@@ -39,10 +40,13 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <span class="fw-bold text-primary nav-link" id="current-time"></span>
+                </li>
+                <!-- <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -148,6 +152,15 @@
                                     Logs OSIS
                                 </p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- <a href="logout.php" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Logout
+                                </p>
+                            </a> -->
+                            <a class="btn btn-danger nav-link-active "><i class="nav-icon fas fa-sign-out-alt"></i>Logout</a>
                         </li>
                     </ul>
                 </nav>

@@ -14,7 +14,7 @@ include 'backend/masuk.php';
         <div class="container-fluid">
             <div class="row mb-1">
                 <div class="col-sm-6">
-                    <h1 class="m-0 fw-bold">Kas Masuk</h1>
+                    <h1 class="m-0 fw-bold text-primary">Kas Masuk</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -29,6 +29,17 @@ include 'backend/masuk.php';
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            <div class="row mb-3">
+                <div class="col-md-12 alert-info rounded pt-3">
+                    <p class="fw-bold text-light">Masukkan Jumlah Kas yang ada dan Sistem akan membagi kas otomatis berdasarkan Porsi yang Telah ada</p>
+                    <ul class="text-light">
+                        <li>OSIS : <span class="fw-bold">50%</span></li>
+                        <li>Pramuka : <span class="fw-bold">30%</span></li>
+                        <li>KKR : <span class="fw-bold">10%</span></li>
+                        <li>PMR : <span class="fw-bold">10%</span></li>
+                    </ul>
+                </div>
+            </div>
             <div class="row ">
                 <form method="POST">
                     <div class="form-group">
@@ -44,15 +55,15 @@ include 'backend/masuk.php';
             <div class="row mt-3">
                 <div class="col-md-12 alert-danger pt-3 rounded">
                     <h4>Hasil Pembagian Uang Kas:</h4>
-                    <ul>
-                        <li>OSIS    : <?php echo number_format($results['osis'], 0, ',', '.'); ?></li>
-                        <li>Pramuka : <?php echo number_format($results['pramuka'], 0, ',', '.'); ?></li>
-                        <li>KKR     : <?php echo number_format($results['kkr'], 0, ',', '.'); ?></li>
-                        <li>PMR     : <?php echo number_format($results['pmr'], 0, ',', '.'); ?></li>
-                        <li><strong>Total: <?php echo number_format($results['total'], 0, ',', '.'); ?></strong></li>
-                        <br>
-                        <p class="fw-bold">CATATAN : Mohon Jangan diRefresh halaman ini jika data diatas belum dicatat/note. Dikarenakan data akan hilang setelah direfresh </p>
+                    <ul style="list-style-type: none;">
+                        <li>OSIS    : <span class="fw-bold">Rp <?php echo number_format($results['osis'], 0, ',', '.'); ?></span></li>
+                        <li>Pramuka : <span class="fw-bold">Rp <?php echo number_format($results['pramuka'], 0, ',', '.'); ?></span></li>
+                        <li>KKR     : <span class="fw-bold">Rp <?php echo number_format($results['kkr'], 0, ',', '.'); ?></span></li>
+                        <li>PMR     : <span class="fw-bold">Rp <?php echo number_format($results['pmr'], 0, ',', '.'); ?></span></li>
+                        <li><strong>Total: Rp <?php echo number_format($results['total'], 0, ',', '.'); ?></strong></li>
                     </ul>
+                    <p class="fw-bold">CATATAN : Mohon Jangan diRefresh halaman ini jika data diatas belum dicatat/note. Dikarenakan data hasil pembagian akan hilang setelah direfresh </p>
+                    <p>*Data Hasil Bagi diatas akan otomatis masuk kedalam tabel masing-masing organisasi</p>
                 </div>
             </div>
             <?php endif; ?>
