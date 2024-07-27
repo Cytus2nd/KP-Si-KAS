@@ -9,10 +9,10 @@ function roundValue($value) {
     }
 }
 
-// Function to insert values into database
-function insertToDatabase($conn, $amount, $keterangan, $tipe_kas, $table) {
-    $stmt = $conn->prepare("INSERT INTO $table (jumlah, keterangan, tipe_kas, created_at) VALUES (?, ?, ?, NOW())");
-    $stmt->bind_param("iss", $amount, $keterangan, $tipe_kas);
+// Function to insert values into the database
+function insertToDatabase($conn, $amount, $keterangan, $tipe_kas, $table, $id_user) {
+    $stmt = $conn->prepare("INSERT INTO $table (jumlah, keterangan, tipe_kas, id_user, created_at) VALUES (?, ?, ?, ?, NOW())");
+    $stmt->bind_param("issi", $amount, $keterangan, $tipe_kas, $id_user);
     $stmt->execute();
     $stmt->close();
 }
@@ -40,12 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recalculate the total after adjustment
     $totalRounded = $osisAmount + $pramukaAmount + $kkrAmount + $pmrAmount;
 
-    // Insert into database
+    // Insert into the database
     include 'config/database.php'; // Ensure this file contains $conn
-    insertToDatabase($conn, $osisAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_osis');
-    insertToDatabase($conn, $pramukaAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_pramuka');
-    insertToDatabase($conn, $kkrAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_kkr');
-    insertToDatabase($conn, $pmrAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_pmr');
+
+    // Retrieve the logged-in user's ID from the session
+    $id_user = $_SESSION['id_user'];
+
+    // Insert the values into the respective tables
+    insertToDatabase($conn, $osisAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_osis', $id_user);
+    insertToDatabase($conn, $pramukaAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_pramuka', $id_user);
+    insertToDatabase($conn, $kkrAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_kkr', $id_user);
+    insertToDatabase($conn, $pmrAmount, 'Inputan Kas oleh OSIS', 'pemasukan', 'kas_pmr', $id_user);
 
     // Store results in session and redirect
     $_SESSION['result'] = [

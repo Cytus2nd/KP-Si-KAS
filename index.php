@@ -18,28 +18,18 @@
                     class="d-inline-block align-text-center">
                 <span class="fs-3 pt-3 text-primary">SMAS</span> MAIREYAWIRA
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a href="login.php" class="btn btn-primary btn-lg mx-3">Login</a>
-                    </li>
-                </ul>
-            </div>
+            <a class="btn btn-primary btn-lg" href="login.php">Login</a>
         </div>
     </nav>
 
     <section class="py-5">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 order-1 order-lg-1">
+                <div class="col-lg-6 order-1 order-lg-1 d-flex justify-content-center">
                     <p class="fs-1 fs-sm-3 fw-bold">Selamat datang di Website Aplikasi Kas SMA Maitreyawira
                         Tanjungpinang.</p>
                 </div>
-                <div class="col-lg-6 mb-3 order-2 order-lg-2">
+                <div class="col-lg-6 mb-3 order-2 order-lg-2 d-flex justify-content-center">
                     <img src="./assets/img/kompo.png" class="img-fluid border-0" alt="Responsive Image">
                 </div>
             </div>

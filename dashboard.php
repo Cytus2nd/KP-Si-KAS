@@ -41,8 +41,8 @@ include 'layout/header.php';
             <!-- Bagian OSIS -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) { ?>
             <div class="row mt-3">
-                <h5 class="fw-bold pb-1">Summary Kas OSIS</h5>
-                <div class="col-lg-4 d-flex justify-content-center">
+            <h5 class="pb-1"><span class="fw-bold">Summary Kas OSIS</span> (Bulan <?= htmlspecialchars($current_month) ?>, Tahun <?= htmlspecialchars($current_year) ?>)</h5>
+            <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
@@ -72,8 +72,8 @@ include 'layout/header.php';
             <!-- Bagian Pramuka -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 4) { ?>
             <div class="row mt-3">
-                <h5 class="fw-bold pb-1">Summary Kas Pramuka</h5>
-                <div class="col-lg-4 d-flex justify-content-center">
+            <h5 class="pb-1"><span class="fw-bold">Summary Kas Pramuka</span> (Bulan <?= htmlspecialchars($current_month) ?>, Tahun <?= htmlspecialchars($current_year) ?>)</h5>
+            <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
@@ -103,8 +103,8 @@ include 'layout/header.php';
             <!-- Bagian PMR -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 5) { ?>
             <div class="row mt-3">
-                <h5 class="fw-bold pb-1">Summary Kas PMR</h5>
-                <div class="col-lg-4 d-flex justify-content-center">
+            <h5 class="pb-1"><span class="fw-bold">Summary Kas PMR</span> (Bulan <?= htmlspecialchars($current_month) ?>, Tahun <?= htmlspecialchars($current_year) ?>)</h5>
+            <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">
                         <div class="card-body d-flex justify-content-center">
@@ -134,7 +134,7 @@ include 'layout/header.php';
             <!-- Bagian KKR -->
             <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 6) { ?>
             <div class="row mt-3">
-                <h5 class="fw-bold pb-1">Summary Kas KKR</h5>
+                <h5 class="pb-1"><span class="fw-bold">Summary Kas KKR</span> (Bulan <?= htmlspecialchars($current_month) ?>, Tahun <?= htmlspecialchars($current_year) ?>)</h5>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem">
                         <img class="card-img-top" src="./assets/img/2.png" alt="Card image cap">

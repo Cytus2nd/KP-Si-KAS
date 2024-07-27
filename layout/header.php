@@ -42,11 +42,6 @@
                 <li class="nav-item">
                     <span class="fw-bold text-primary nav-link" id="current-time"></span>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
-                </li> -->
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -147,20 +142,15 @@
                         </li>
                         <li class="nav-item">
                             <a href="osis_masuk.php" class="nav-link">
-                                <i class="nav-icon fas fa-server"></i>
+                                <i class="nav-icon fas fa-scroll"></i>
                                 <p>
-                                    Logs OSIS
+                                    Laporan
                                 </p>
                             </a>
                         </li>
+                        <br>
                         <li class="nav-item">
-                            <!-- <a href="logout.php" class="nav-link">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>
-                                    Logout
-                                </p>
-                            </a> -->
-                            <a class="btn btn-danger nav-link-active "><i class="nav-icon fas fa-sign-out-alt"></i>Logout</a>
+                            <a class="nav-link bg-danger"><i class="nav-icon fas fa-sign-out-alt"></i>Log Out</a>
                         </li>
                     </ul>
                 </nav>
