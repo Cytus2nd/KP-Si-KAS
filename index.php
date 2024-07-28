@@ -18,7 +18,7 @@
                     class="d-inline-block align-text-center">
                 <span class="fs-3 pt-3 text-primary">SMAS</span> MAIREYAWIRA
             </a>
-            <a class="btn btn-primary btn-lg" href="login.php">Login</a>
+            <a class="btn btn-primary btn-lg" href="login">Login</a>
         </div>
     </nav>
 

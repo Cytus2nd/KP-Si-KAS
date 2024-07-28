@@ -33,7 +33,7 @@ if (isset($_POST['login'])) {
           $_SESSION['jabatan'] = $hasil['jabatan'];
 
             // Jika login benar arahkan ke file dashboard
-          header('location: dashboard.php');
+          header('location: dashboard');
           exit;
         } else {
           $error = true;

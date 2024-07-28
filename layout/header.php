@@ -76,7 +76,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="dashboard.php" class="nav-link">
+                            <a href="dashboard" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="organisasi.php" class="nav-link">
+                            <a href="organisasi" class="nav-link">
                                 <i class="nav-icon fas fa-sitemap"></i>
                                 <p>
                                     Organisasi
@@ -101,31 +101,31 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="kas_masuk.php" class="nav-link">
+                                    <a href="kas_masuk" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas Masuk</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="osis.php" class="nav-link">
+                                    <a href="osis" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas OSIS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pramuka.php" class="nav-link">
+                                    <a href="pramuka" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas Pramuka</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pmr.php" class="nav-link">
+                                    <a href="pmr" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas PMR</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="kkr.php" class="nav-link">
+                                    <a href="kkr" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas KKR</p>
                                     </a>
@@ -133,7 +133,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="user.php" class="nav-link">
+                            <a href="user" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     User
@@ -141,7 +141,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="osis_masuk.php" class="nav-link">
+                            <a href="osis_masuk" class="nav-link">
                                 <i class="nav-icon fas fa-scroll"></i>
                                 <p>
                                     Laporan
