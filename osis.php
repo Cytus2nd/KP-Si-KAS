@@ -9,6 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 include 'layout/header.php';
 include 'backend/view_osis.php';
+include 'backend/script_osis.php';
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -35,12 +36,12 @@ include 'backend/view_osis.php';
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-12">
-                    <form method="GET" action="">
+                    <form method="GET" action="" id="filterForm">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="bulan">Bulan:</label>
-                                    <select id="bulan" name="bulan" class="form-control">
+                                    <select id="bulan" name="bulan" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <?php 
                                         foreach ($nama_bulan as $num => $name) {
                                             $selected = ($num == $bulan) ? 'selected' : '';
@@ -53,7 +54,7 @@ include 'backend/view_osis.php';
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tahun">Tahun:</label>
-                                    <select id="tahun" name="tahun" class="form-control">
+                                    <select id="tahun" name="tahun" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <?php 
                                         $currentYear = date('Y');
                                         for ($i = $currentYear; $i <= $currentYear + 5; $i++) {
@@ -67,7 +68,7 @@ include 'backend/view_osis.php';
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tipe_kas">Tipe Kas:</label>
-                                    <select id="tipe_kas" name="tipe_kas" class="form-control">
+                                    <select id="tipe_kas" name="tipe_kas" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <option value="semua" <?= ($tipe_kas == 'semua') ? 'selected' : ''; ?>>Semua</option>
                                         <option value="pemasukan" <?= ($tipe_kas == 'pemasukan') ? 'selected' : ''; ?>>Pemasukan</option>
                                         <option value="pengeluaran" <?= ($tipe_kas == 'pengeluaran') ? 'selected' : ''; ?>>Pengeluaran</option>
@@ -75,10 +76,7 @@ include 'backend/view_osis.php';
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>&nbsp;</label><br>
-                                    <button type="submit" class="btn btn-primary">Tampilkan</button>
-                                </div>
+                                
                             </div>
                         </div>
                     </form>
@@ -97,7 +95,7 @@ include 'backend/view_osis.php';
                     </div>
                     <div>
                         <?php if($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Data</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahOsis">Tambah Data</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -113,13 +111,14 @@ include 'backend/view_osis.php';
                             <th>Tipe Kas</th>
                             <th>Keterangan</th>
                             <th>Dibuat Pada</th>
+                            <th>Dibuat Oleh</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($data_osis)): ?>
                         <tr>
-                            <td colspan="6" class="text-center">Data Tidak Ada</td>
+                            <td colspan="8" class="text-center">Data Tidak Ada</td>
                         </tr>
                         <?php else: ?>
                         <?php $no = $offset + 1; ?>
@@ -133,9 +132,10 @@ include 'backend/view_osis.php';
                             </td>
                             <td><?= htmlspecialchars($osis['keterangan']); ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($osis['created_at'])); ?></td>
+                            <td><?= htmlspecialchars($osis['nama']); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah<?= $osis['id_user']; ?>">Ubah</button>
-                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapus<?= $osis['id_user']; ?>">Hapus</button>
+                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
+                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>">Hapus</button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -153,7 +153,7 @@ include 'backend/view_osis.php';
                         <input type="hidden" name="tahun" value="<?= $tahun ?>">
                         <input type="hidden" name="tipe_kas" value="<?= $tipe_kas ?>">
                         <input type="hidden" name="cari" value="<?= $cari ?>">
-                        <select name="limit" id="limit" class="form-control" onchange="this.form.submit()">
+                        <select name="limit" id="limit" class="form-select" onchange="this.form.submit()">
                             <option value="10" <?= ($limit == 10) ? 'selected' : ''; ?>>10</option>
                             <option value="20" <?= ($limit == 20) ? 'selected' : ''; ?>>20</option>
                             <option value="50" <?= ($limit == 50) ? 'selected' : ''; ?>>50</option>
@@ -188,5 +188,100 @@ include 'backend/view_osis.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<!-- Modal Tambah -->
+<div class="modal fade" id="modalTambahOsis" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST">
+            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+            <div class="mb-3">
+                <label for="jumlah">Jumlah Kas</label>
+                <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="keterangan">Keterangan</label>
+                <input type="text" name="keterangan" id="keterangan" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="tipe_kas">Tipe Kas</label>
+                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                    <option value="pengeluaran" selected>Pengeluaran</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal hapus -->
+<?php foreach ($data_osis as $osis) : ?>
+    <div class="modal fade" id="modalHapusOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Akun</h1>
+            </div>
+            <div class="modal-body">
+                <p>Yakin Hapus Data berikut ini ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form action="" method="post">
+                    <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
+                    <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<!-- modal ubah -->
+<?php foreach ($data_osis as $osis) : ?>
+<div class="modal fade" id="modalUbahOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST">
+            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+            <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
+            <div class="mb-3">
+                <label for="jumlah">Jumlah Kas</label>
+                <input type="number" name="jumlah" id="jumlah" class="form-control" required value="<?= $osis['jumlah']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="keterangan">Keterangan</label>
+                <input type="text" name="keterangan" id="keterangan" class="form-control" required value="<?= $osis['keterangan']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="tipe_kas">Tipe Kas</label>
+                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                    <option value="pemasukan" <?= $osis['tipe_kas'] == 'pemasukan' ? 'selected' : '' ?>>Pemasukan</option>
+                    <option value="pengeluaran" <?= $osis['tipe_kas'] == 'pengeluaran' ? 'selected' : '' ?>>Pengeluaran</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<?php endforeach; ?>
 
 <?php include 'layout/footer.php'; ?>

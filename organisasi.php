@@ -39,12 +39,6 @@ $data_organisasi = select("SELECT o.*, u.nama as nama_bendahara
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div>
-                    <?php if($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2) : ?>
-                        <button class="mb-3 btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Data</button>
-                    <?php endif; ?>
-                </div>
-                
                 <div style="overflow-x: auto;">
                 <table class="table table-bordered table-light table-striped" id="tabel">
                     <thead>

@@ -35,12 +35,12 @@ include 'backend/view_kkr.php';
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-12">
-                    <form method="GET" action="">
+                    <form method="GET" action="" id="filterForm">
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="bulan">Bulan:</label>
-                                    <select id="bulan" name="bulan" class="form-control">
+                                    <select id="bulan" name="bulan" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <?php 
                                         foreach ($nama_bulan as $num => $name) {
                                             $selected = ($num == $bulan) ? 'selected' : '';
@@ -53,7 +53,7 @@ include 'backend/view_kkr.php';
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tahun">Tahun:</label>
-                                    <select id="tahun" name="tahun" class="form-control">
+                                    <select id="tahun" name="tahun" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <?php 
                                         $currentYear = date('Y');
                                         for ($i = $currentYear; $i <= $currentYear + 5; $i++) {
@@ -67,7 +67,7 @@ include 'backend/view_kkr.php';
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tipe_kas">Tipe Kas:</label>
-                                    <select id="tipe_kas" name="tipe_kas" class="form-control">
+                                    <select id="tipe_kas" name="tipe_kas" class="form-select" onchange="document.getElementById('filterForm').submit()">
                                         <option value="semua" <?= ($tipe_kas == 'semua') ? 'selected' : ''; ?>>Semua</option>
                                         <option value="pemasukan" <?= ($tipe_kas == 'pemasukan') ? 'selected' : ''; ?>>Pemasukan</option>
                                         <option value="pengeluaran" <?= ($tipe_kas == 'pengeluaran') ? 'selected' : ''; ?>>Pengeluaran</option>
@@ -75,10 +75,7 @@ include 'backend/view_kkr.php';
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>&nbsp;</label><br>
-                                    <button type="submit" class="btn btn-primary">Tampilkan</button>
-                                </div>
+                                <!-- Space for future use if needed -->
                             </div>
                         </div>
                     </form>
@@ -153,7 +150,7 @@ include 'backend/view_kkr.php';
                         <input type="hidden" name="tahun" value="<?= $tahun ?>">
                         <input type="hidden" name="tipe_kas" value="<?= $tipe_kas ?>">
                         <input type="hidden" name="cari" value="<?= $cari ?>">
-                        <select name="limit" id="limit" class="form-control" onchange="this.form.submit()">
+                        <select name="limit" id="limit" class="form-select" onchange="this.form.submit()">
                             <option value="10" <?= ($limit == 10) ? 'selected' : ''; ?>>10</option>
                             <option value="20" <?= ($limit == 20) ? 'selected' : ''; ?>>20</option>
                             <option value="50" <?= ($limit == 50) ? 'selected' : ''; ?>>50</option>

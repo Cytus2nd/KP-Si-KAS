@@ -12,35 +12,71 @@
         return $rows;
     }
 
-    function create_user($post) {
-        global $db;
-        $nama = strip_tags($post['nama']);
-        $username = strip_tags($post['username']);
-        $email = strip_tags($post['email']);
-        $password = strip_tags($post['password']);
-        $level = strip_tags($post['level']);
+    function create_kas_osis($post) {
+        global $conn;
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Ambil total kas tipe pemasukan
+        $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_osis WHERE tipe_kas = 'pemasukan'";
+        $result = mysqli_query($conn, $query_total_pemasukan);
+        $row = mysqli_fetch_assoc($result);
+        $total_pemasukan = $row['total_pemasukan'];
+    
+        // Pengecekan jumlah kas
+        if ($jumlah > $total_pemasukan) {
+            return -1; // Indikator bahwa jumlah kas baru lebih besar dari total pemasukan
+        } else {
+            // Query untuk menambahkan data kas
+            $query = "INSERT INTO `kas_osis`(`jumlah`, `keterangan`, `tipe_kas`, `id_user`) VALUES ('$jumlah', '$keterangan', '$tipe_kas', '$id_user')";
+            mysqli_query($conn, $query);
+            return mysqli_affected_rows($conn);
+        }
+    }
+    
+    function delete_kas_osis($id_kas_osis) {
+        global $conn;
 
-        // enkripsi pass
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO akun VALUES(null, '$nama', '$username', '$email', '$password', '$level')";
-
-        mysqli_query($db, $query);
-        return mysqli_affected_rows($db);
+        $query = "DELETE FROM kas_osis WHERE id_kas_osis = $id_kas_osis";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
     }
 
-    function update_user($post) {
-        global $db;
-        $id_akun = strip_tags($post['id_akun']);
-        $nama = strip_tags($post['nama']);
-        $username = strip_tags($post['username']);
-        $email = strip_tags($post['email']);
-        $password = strip_tags($post['password']);
-        $level = strip_tags($post['level']);
-
-        // enkripsi pass
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "UPDATE akun SET nama = '$nama', username = '$username', email = '$email', password = '$password', level = '$level' WHERE id_akun = '$id_akun'";
-
-        mysqli_query($db, $query);
-        return mysqli_affected_rows($db);
+    function update_kas_osis($post) {
+        global $conn;
+        $id_kas_osis = $post['id_kas_osis'];
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        if ($tipe_kas == 'pengeluaran') {
+            // Ambil total kas tipe pemasukan
+            $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_osis WHERE tipe_kas = 'pemasukan'";
+            $result = mysqli_query($conn, $query_total_pemasukan);
+            $row = mysqli_fetch_assoc($result);
+            $total_pemasukan = $row['total_pemasukan'];
+    
+            // Pengecekan jumlah kas
+            if ($jumlah > $total_pemasukan) {
+                return -1; // Indikator bahwa jumlah kas baru lebih besar dari total pemasukan
+            }
+        }
+    
+        // Query untuk mengubah data kas
+        $query = "UPDATE kas_osis SET jumlah='$jumlah', keterangan='$keterangan', tipe_kas='$tipe_kas', id_user=$id_user WHERE id_kas_osis = $id_kas_osis";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
     }

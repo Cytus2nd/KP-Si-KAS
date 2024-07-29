@@ -9,16 +9,22 @@ $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 $offset = ($page - 1) * $limit;
 
 // Fetch data kas OSIS berdasarkan bulan, tahun, tipe kas, dan pencarian
-$query = "SELECT * FROM kas_osis WHERE MONTH(created_at) = $bulan AND YEAR(created_at) = $tahun";
+$query = "
+    SELECT kas_osis.*, users.nama 
+    FROM kas_osis 
+    JOIN users ON kas_osis.id_user = users.id_user 
+    WHERE MONTH(kas_osis.created_at) = $bulan 
+    AND YEAR(kas_osis.created_at) = $tahun";
+
 if ($tipe_kas != 'semua') {
-    $query .= " AND tipe_kas = '$tipe_kas'";
+    $query .= " AND kas_osis.tipe_kas = '$tipe_kas'";
 }
 if (!empty($cari)) {
-    $query .= " AND (keterangan LIKE '%$cari%' OR jumlah LIKE '%$cari%')";
+    $query .= " AND (kas_osis.keterangan LIKE '%$cari%' OR kas_osis.jumlah LIKE '%$cari%')";
 }
 
 // Fetch total data for pagination
-$total_query = str_replace("SELECT *", "SELECT COUNT(*) as total", $query);
+$total_query = str_replace("SELECT kas_osis.*, users.nama", "SELECT COUNT(*) as total", $query);
 $total_result = select($total_query);
 $total_data = $total_result[0]['total'];
 $total_pages = ceil($total_data / $limit);

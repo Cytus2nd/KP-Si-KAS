@@ -24,6 +24,22 @@ $osisAmount = $pramukaAmount = $kkrAmount = $pmrAmount = $totalRounded = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $totalAmount = (int)$_POST['totalAmount'];
 
+    // Validate that totalAmount is not negative
+    if ($totalAmount < 1000) {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Jumlah Kas Masuk tidak boleh kurang dari Rp 1.000, Tidak boleh negatif dan tidak boleh 0',
+                    icon: 'error',
+                    timer: 10000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'kas_masuk.php';
+                });
+              </script>";
+        exit();
+    }
+
     // Calculate the amounts
     $osisAmount = roundValue($totalAmount * 0.50);
     $pramukaAmount = roundValue($totalAmount * 0.30);
