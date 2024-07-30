@@ -3,7 +3,13 @@ session_start();
 $title = 'Kas OSIS';
 
 if (!isset($_SESSION['login'])) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
+}
+
+// Restrict access based on jabatan
+if ($_SESSION['jabatan'] >= 4) {
+    header('Location: unauthorized'); // Redirect to an unauthorized access page
     exit;
 }
 
@@ -94,9 +100,10 @@ include 'backend/script_osis.php';
                         </form>
                     </div>
                     <div>
-                        <?php if($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahOsis">Tambah Data</button>
-                        <?php endif; ?>
+                    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahOsis">Tambah Data</button>
+                    <?php endif; ?>
+                        <a href="pdf_report/generate_pdf_osis.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger">Cetak Laporan PDF</a>
                     </div>
                 </div>
             </div>
@@ -110,8 +117,8 @@ include 'backend/script_osis.php';
                             <th>Jumlah Kas</th>
                             <th>Tipe Kas</th>
                             <th>Keterangan</th>
-                            <th>Dibuat Pada</th>
-                            <th>Dibuat Oleh</th>
+                            <th>Last Edit At</th>
+                            <th>Last Edit By</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -126,7 +133,7 @@ include 'backend/script_osis.php';
                         <?php foreach ($data_osis as $osis): ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= htmlspecialchars($osis['jumlah']); ?></td>
+                            <td>Rp <?= number_format($osis['jumlah'], 0, ',', '.'); ?></td>
                             <td style="color: <?= $osis['tipe_kas'] == 'pemasukan' ? 'blue' : ($osis['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
                                 <?= htmlspecialchars($osis['tipe_kas']); ?>
                             </td>
@@ -134,8 +141,12 @@ include 'backend/script_osis.php';
                             <td><?= date('d/m/Y H:i', strtotime($osis['created_at'])); ?></td>
                             <td><?= htmlspecialchars($osis['nama']); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
-                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>">Hapus</button>
+                                <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
+                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>">Hapus</button>
+                                <?php elseif ($_SESSION['jabatan'] == 3): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -160,6 +171,7 @@ include 'backend/script_osis.php';
                             <option value="100" <?= ($limit == 100) ? 'selected' : ''; ?>>100</option>
                             <option value="250" <?= ($limit == 250) ? 'selected' : ''; ?>>250</option>
                         </select>
+                        <label for=""> <small>*Sesuaikan Spek Device dengan jumlah data yang ditampilkan</small> </label>
                     </form>
                 </div>
                 <div class="col-md-6 pt-2">
@@ -191,97 +203,102 @@ include 'backend/script_osis.php';
 
 <!-- Modal Tambah -->
 <div class="modal fade" id="modalTambahOsis" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
-      </div>
-      <div class="modal-body">
-        <form action="" method="POST">
-            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-            <div class="mb-3">
-                <label for="jumlah">Jumlah Kas</label>
-                <input type="number" name="jumlah" id="jumlah" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="keterangan">Keterangan</label>
-                <input type="text" name="keterangan" id="keterangan" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="tipe_kas">Tipe Kas</label>
-                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
-                    <option value="pengeluaran" selected>Pengeluaran</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- modal hapus -->
-<?php foreach ($data_osis as $osis) : ?>
-    <div class="modal fade" id="modalHapusOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Akun</h1>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
             </div>
             <div class="modal-body">
-                <p>Yakin Hapus Data berikut ini ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <form action="" method="post">
-                    <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
-                    <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                <form action="" method="POST">
+                    <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                    <div class="mb-3">
+                        <label for="jumlah">Jumlah Kas</label>
+                        <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" name="keterangan" id="keterangan" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipe_kas">Tipe Kas</label>
+                        <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                            <option value="pengeluaran" selected>Pengeluaran</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                        <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
+                    </div>
                 </form>
-            </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal Ubah -->
+<?php foreach ($data_osis as $osis) : ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || ($_SESSION['jabatan'] == 3 && $osis['tipe_kas'] == 'pemasukan')): ?>
+        <div class="modal fade" id="modalUbahOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                            <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
+                            <input type="hidden" name="tipe_kas_awal" value="<?= $osis['tipe_kas']; ?>">
+                            <div class="mb-3">
+                                <label for="jumlah">Jumlah Kas</label>
+                                <input type="number" name="jumlah" id="jumlah" class="form-control" required value="<?= $osis['jumlah']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" name="keterangan" id="keterangan" class="form-control" required value="<?= $osis['keterangan']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipe_kas">Tipe Kas</label>
+                                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                                    <option value="pemasukan" <?= $osis['tipe_kas'] == 'pemasukan' ? 'selected' : '' ?> <?= $osis['tipe_kas'] == 'pengeluaran' ? 'disabled' : '' ?>>Pemasukan</option>
+                                    <option value="pengeluaran" <?= $osis['tipe_kas'] == 'pengeluaran' ? 'selected' : '' ?> <?= $osis['tipe_kas'] == 'pemasukan' ? 'disabled' : '' ?>>Pengeluaran</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 <?php endforeach; ?>
 
-<!-- modal ubah -->
+<!-- Modal Hapus -->
 <?php foreach ($data_osis as $osis) : ?>
-<div class="modal fade" id="modalUbahOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
-      </div>
-      <div class="modal-body">
-        <form action="" method="POST">
-            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
-            <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
-            <div class="mb-3">
-                <label for="jumlah">Jumlah Kas</label>
-                <input type="number" name="jumlah" id="jumlah" class="form-control" required value="<?= $osis['jumlah']; ?>">
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+        <div class="modal fade" id="modalHapusOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data Kas</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Yakin Hapus Data berikut ini ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form action="" method="post">
+                            <input type="hidden" name="id_kas_osis" value="<?= $osis['id_kas_osis']; ?>">
+                            <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="keterangan">Keterangan</label>
-                <input type="text" name="keterangan" id="keterangan" class="form-control" required value="<?= $osis['keterangan']; ?>">
-            </div>
-            <div class="mb-3">
-                <label for="tipe_kas">Tipe Kas</label>
-                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
-                    <option value="pemasukan" <?= $osis['tipe_kas'] == 'pemasukan' ? 'selected' : '' ?>>Pemasukan</option>
-                    <option value="pengeluaran" <?= $osis['tipe_kas'] == 'pengeluaran' ? 'selected' : '' ?>>Pengeluaran</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+        </div>
+    <?php endif; ?>
 <?php endforeach; ?>
 
 <?php include 'layout/footer.php'; ?>

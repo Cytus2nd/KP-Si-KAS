@@ -8,11 +8,18 @@ if (!isset($_SESSION['login'])) {
 }
 
 include 'layout/header.php'; 
+include 'backend/script_or.php';    
 
 // Fetch data organisasi
-$data_organisasi = select("SELECT o.*, u.nama as nama_bendahara 
+$data_organisasi = select("SELECT o.*, u.nama as nama_bendahara, ue.nama as last_edit_by_name
                            FROM data_organisasi o 
-                           JOIN users u ON o.id_user_bendahara = u.id_user");
+                           JOIN users u ON o.id_user_bendahara = u.id_user
+                           JOIN users ue ON o.last_edit_by = ue.id_user 
+                           ORDER BY o.id_organisasi ASC");
+
+
+// Fetch all users
+$users = select("SELECT * FROM users");
 
 ?>
 
@@ -48,7 +55,9 @@ $data_organisasi = select("SELECT o.*, u.nama as nama_bendahara
                             <th>Ketua Organisasi</th>
                             <th>Pembina Organisasi</th>
                             <th>Nama Bendahara</th>
-                            <th>No Telepon Bendahara</th>
+                            <th>No Telp Bendahara</th>
+                            <th>Last Edited By</th>
+                            <th>Last Edited At</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -63,9 +72,10 @@ $data_organisasi = select("SELECT o.*, u.nama as nama_bendahara
                             <td><?= htmlspecialchars($organisasi['pembina_organisasi']); ?></td>
                             <td><?= htmlspecialchars($organisasi['nama_bendahara']); ?></td>
                             <td><?= htmlspecialchars($organisasi['no_telp_bendahara']); ?></td>
+                            <td><?= htmlspecialchars($organisasi['last_edit_by_name']); ?></td>
+                            <td><?= date('d/m/Y H:i', strtotime($organisasi['last_edit'])); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah<?= $organisasi['id_user_bendahara']; ?>">Ubah</button>
-                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapus<?= $organisasi['id_user_bendahara']; ?>">Hapus</button>
+                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOr<?= $organisasi['id_organisasi']; ?>">Ubah</button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -80,4 +90,54 @@ $data_organisasi = select("SELECT o.*, u.nama as nama_bendahara
 </div>
 <!-- /.content-wrapper -->
 
+<!-- modal ubah -->
+<?php foreach ($data_organisasi as $organisasi) : ?>
+<div class="modal fade" id="modalUbahOr<?= $organisasi['id_organisasi']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Organisasi</h1>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+            <input type="hidden" name="id_organisasi" value="<?= $organisasi['id_organisasi']; ?>">
+            <input type="hidden" name="last_edit_by" value="<?php echo $_SESSION['id_user']; ?>">
+            <div class="mb-3">
+                <label for="nama_organisasi">Nama Organisasi</label>
+                <input type="text" name="nama_organisasi" id="nama_organisasi" class="form-control" required value="<?= $organisasi['nama_organisasi']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="ketua_organisasi">Ketua Organisasi</label>
+                <input type="text" name="ketua_organisasi" id="ketua_organisasi" class="form-control" required value="<?= $organisasi['ketua_organisasi']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="pembina_organisasi">Pembina Organisasi</label>
+                <input type="text" name="pembina_organisasi" id="pembina_organisasi" class="form-control" required value="<?= $organisasi['pembina_organisasi']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="id_user_bendahara">Nama Bendahara</label>
+                <select name="id_user_bendahara" id="id_user_bendahara" class="form-select" required>
+                    <?php foreach ($users as $user): ?>
+                        <option value="<?= $user['id_user']; ?>" <?= $organisasi['id_user_bendahara'] == $user['id_user'] ? 'selected' : ''; ?>>
+                            <?= htmlspecialchars($user['nama']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="no_telp_bendahara">No Telepon Bendahara</label>
+                <input type="text" name="no_telp_bendahara" id="no_telp_bendahara" class="form-control" required value="<?= $organisasi['no_telp_bendahara']; ?>">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<?php endforeach; ?>
+
 <?php include 'layout/footer.php'; ?>
+

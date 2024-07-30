@@ -1,5 +1,9 @@
 <?php 
-// script tambah
+if ($_SESSION['jabatan'] >= 4) {
+    header('Location: unauthorized');
+    exit;
+}
+
 if (isset($_POST["tambah"])) {
     $result = create_kas_osis($_POST);
     if ($result > 0) {
@@ -18,7 +22,7 @@ if (isset($_POST["tambah"])) {
         echo "<script>
                 Swal.fire({
                     title: 'Oops...',
-                    text: 'Jumlah Kas lebih besar dari Pemasukan yang ada!',
+                    text: 'Jumlah Kas lebih besar dari sisa Kas yang ada!',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'
@@ -31,6 +35,18 @@ if (isset($_POST["tambah"])) {
                 Swal.fire({
                     title: 'Oops...',
                     text: 'Jumlah harus berupa angka yang valid dan lebih besar dari 0!',
+                    icon: 'error',
+                    timer: 8000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'osis.php';
+                });
+              </script>";
+    } else if ($result == -3) {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Tipe kas tidak valid!',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'
@@ -53,14 +69,13 @@ if (isset($_POST["tambah"])) {
     }
 }
 
-// script ubah
 if (isset($_POST["ubah"])) {
     $result = update_kas_osis($_POST);
     if ($result > 0) {
         echo "<script>
                 Swal.fire({
                     title: 'Sukses!',
-                    text: 'Data Kas Berhasil diUbah!',
+                    text: 'Data Kas Berhasil diubah!',
                     icon: 'success',
                     timer: 8000,
                     confirmButtonText: 'OK'
@@ -72,7 +87,7 @@ if (isset($_POST["ubah"])) {
         echo "<script>
                 Swal.fire({
                     title: 'Oops...',
-                    text: 'Jumlah Kas yang diUbah lebih besar dari Pemasukan yang ada!',
+                    text: 'Jumlah Kas lebih besar dari total Pemasukan yang ada!',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'
@@ -84,7 +99,19 @@ if (isset($_POST["ubah"])) {
         echo "<script>
                 Swal.fire({
                     title: 'Oops...',
-                    text: 'Jumlah Kas harus berupa angka yang valid dan lebih besar dari 0!',
+                    text: 'Jumlah harus berupa angka yang valid dan lebih besar dari 0!',
+                    icon: 'error',
+                    timer: 8000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'osis.php';
+                });
+              </script>";
+    } else if ($result == -3) {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Jumlah baru tidak boleh lebih kecil dari jumlah sebelumnya!',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'
@@ -96,7 +123,7 @@ if (isset($_POST["ubah"])) {
         echo "<script>
                 Swal.fire({
                     title: 'Oops...',
-                    text: 'Data Kas Gagal DiUbah',
+                    text: 'Data Kas Gagal Diubah',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'

@@ -77,7 +77,9 @@ if (isset($_POST['register'])) {
                     <option value="1">Kepala Sekolah</option>
                     <option value="2">Waka Kesiswaan</option>
                     <option value="3">Bendahara OSIS</option>
-                    <option value="4">Bendahara</option>
+                    <option value="4">Bendahara Pramuka</option>
+                    <option value="5">Bendahara PMR</option>
+                    <option value="6">Bendahara KKR</option>
                 </select>
                 <div class="input-group-append">
                     <div class="input-group-text">

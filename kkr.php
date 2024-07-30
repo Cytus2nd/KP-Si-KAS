@@ -9,6 +9,7 @@ if (!isset($_SESSION['login'])) {
 
 include 'layout/header.php';
 include 'backend/view_kkr.php';
+include 'backend/script_kkr.php';
 ?>
 
 <!-- Content Wrapper. Contains page content -->

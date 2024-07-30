@@ -1,6 +1,7 @@
 <?php 
     include 'config/app.php';
     $nama = $_SESSION['nama'];
+    $jabatan = $_SESSION['jabatan'];
 ?>
 
 <!DOCTYPE html>
@@ -14,15 +15,13 @@
     <!-- web icon -->
     <link rel="icon" href="./assets/img/logo.png" type="image/x-icon">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="app/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="app/dist/css/adminlte.min.css">
     <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -58,41 +57,24 @@
 
             <!-- Sidebar -->
             <div class="sidebar pt-3">
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search..."
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                <br>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="dashboard" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
+                                <p>Dashboard</p>
                             </a>
                         </li>
+                        <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
                         <li class="nav-item">
                             <a href="organisasi" class="nav-link">
                                 <i class="nav-icon fas fa-sitemap"></i>
-                                <p>
-                                    Organisasi
-                                </p>
+                                <p>Organisasi</p>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="nav-item menu-close">
                             <a class="nav-link">
                                 <i class="nav-icon fas fa-wallet"></i>
@@ -102,57 +84,57 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="kas_masuk" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas Masuk</p>
-                                    </a>
-                                </li>
+                                <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
                                 <li class="nav-item">
                                     <a href="osis" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas OSIS</p>
                                     </a>
                                 </li>
+                                <?php endif; ?>
+                                <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 4) : ?>
                                 <li class="nav-item">
                                     <a href="pramuka" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas Pramuka</p>
                                     </a>
                                 </li>
+                                <?php endif; ?>
+                                <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 5) : ?>
                                 <li class="nav-item">
                                     <a href="pmr" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas PMR</p>
                                     </a>
                                 </li>
+                                <?php endif; ?>
+                                <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 6) : ?>
                                 <li class="nav-item">
                                     <a href="kkr" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas KKR</p>
                                     </a>
                                 </li>
+                                <?php endif; ?>
                             </ul>
                         </li>
+                        <?php if ($jabatan == 1 || $jabatan == 2) : ?>
                         <li class="nav-item">
                             <a href="user" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    User
-                                </p>
+                                <p>User</p>
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a href="osis_masuk" class="nav-link">
                                 <i class="nav-icon fas fa-scroll"></i>
-                                <p>
-                                    Laporan
-                                </p>
+                                <p>Laporan</p>
                             </a>
                         </li>
                         <br>
                         <li class="nav-item">
-                            <a class="nav-link bg-danger"><i class="nav-icon fas fa-sign-out-alt"></i>Log Out</a>
+                            <a href="logout.php" class="nav-link bg-danger"><i class="nav-icon fas fa-sign-out-alt"></i><p>Log Out</p></a>
                         </li>
                     </ul>
                 </nav>
