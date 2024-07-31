@@ -111,7 +111,7 @@ if (isset($_POST["ubah"])) {
         echo "<script>
                 Swal.fire({
                     title: 'Oops...',
-                    text: 'Jumlah baru tidak boleh lebih kecil dari jumlah sebelumnya!',
+                    text: 'Jumlah baru tidak boleh lebih kecil dari jumlah sebelumnya untuk tipe kas pemasukan!',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'

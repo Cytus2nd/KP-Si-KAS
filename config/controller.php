@@ -77,13 +77,14 @@
         }
     
         // Ambil jumlah sebelumnya dari database
-        $query_sebelumnya = "SELECT jumlah FROM kas_osis WHERE id_kas_osis = $id_kas_osis";
+        $query_sebelumnya = "SELECT jumlah, tipe_kas FROM kas_osis WHERE id_kas_osis = $id_kas_osis";
         $result_sebelumnya = mysqli_query($conn, $query_sebelumnya);
         $row_sebelumnya = mysqli_fetch_assoc($result_sebelumnya);
         $jumlah_sebelumnya = $row_sebelumnya['jumlah'];
+        $tipe_kas_sebelumnya = $row_sebelumnya['tipe_kas'];
     
-        // Pengecekan jumlah yang diubah tidak boleh lebih kecil dari jumlah sebelumnya
-        if ($jumlah < $jumlah_sebelumnya) {
+        // Pengecekan jumlah yang diubah tidak boleh lebih kecil dari jumlah sebelumnya jika tipe kas adalah pemasukan
+        if ($tipe_kas_sebelumnya == 'pemasukan' && $jumlah < $jumlah_sebelumnya) {
             return -3; // Indikator bahwa jumlah baru lebih kecil dari jumlah sebelumnya
         }
     

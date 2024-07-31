@@ -136,7 +136,7 @@
                         <?php endif; ?>
                         <br>
                         <br>
-                        <li class="nav-item">
+                        <li class="nav-item mb-2">
                             <a href="profil" class="nav-link bg-primary">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Profile</p>

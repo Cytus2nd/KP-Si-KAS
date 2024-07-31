@@ -8,9 +8,9 @@ if ($_SESSION['jabatan'] >= 4) {
 }
 
 require('../vendor/setasign/fpdf/fpdf.php');
-require '../config/database.php'; // Pastikan file ini berisi koneksi ke database
+require '../config/database.php'; // Ensure this file contains the database connection
 
-date_default_timezone_set('Asia/Jakarta'); // Ganti dengan timezone yang sesuai dengan lokasi Anda
+date_default_timezone_set('Asia/Jakarta'); // Change to your timezone
 
 class PDF extends FPDF
 {
@@ -23,8 +23,8 @@ class PDF extends FPDF
         $this->SetFont('Times','B',14);
         // Title
         $this->Cell(0,10,'SMA MAITREYAWIRA TANJUNGPINANG',0,1,'C');
-        $this->Cell(0,10,'Jalan Suka Berenang No 1',0,1,'C');
-        $this->Cell(0,10,'LAPORAN KAS OSIS',0,1,'C');
+        $this->Cell(0,10,'Jl. Ir. Sutami No.66, Tj. Pinang Timur, Kec. Bukit Bestari',0,1,'C');
+        $this->Cell(0,10,'Kota Tanjung Pinang, Kepulauan Riau 29122',0,1,'C');
         $this->SetFont('Arial','',10);
         // Draw line
         $this->Line(10, 40, 200, 40);
@@ -103,11 +103,11 @@ $stmt->execute();
 $result = $stmt->get_result();
 $data_osis = $result->fetch_all(MYSQLI_ASSOC);
 
-// Calculate totals
+// Calculate monthly totals
 $total_pemasukan = 0;
 $total_pengeluaran = 0;
 
-// Urutkan data dari yang terlama
+// Sort data by oldest first
 usort($data_osis, function($a, $b) {
     return strtotime($a['created_at']) - strtotime($b['created_at']);
 });
@@ -120,9 +120,28 @@ foreach ($data_osis as $osis) {
     }
 }
 
-$sisa_kas = $total_pemasukan - $total_pengeluaran;
+// Calculate universal totals
+$query_universal_pemasukan = "SELECT SUM(jumlah) as total_pemasukan FROM kas_osis WHERE tipe_kas='pemasukan'";
+$query_universal_pengeluaran = "SELECT SUM(jumlah) as total_pengeluaran FROM kas_osis WHERE tipe_kas='pengeluaran'";
 
-// Bulan dalam format integer
+$stmt_universal_pemasukan = $conn->prepare($query_universal_pemasukan);
+$stmt_universal_pemasukan->execute();
+$result_universal_pemasukan = $stmt_universal_pemasukan->get_result();
+$data_universal_pemasukan = $result_universal_pemasukan->fetch_assoc();
+$universal_pemasukan_osis = $data_universal_pemasukan['total_pemasukan'] ?? 0;
+
+$stmt_universal_pengeluaran = $conn->prepare($query_universal_pengeluaran);
+$stmt_universal_pengeluaran->execute();
+$result_universal_pengeluaran = $stmt_universal_pengeluaran->get_result();
+$data_universal_pengeluaran = $result_universal_pengeluaran->fetch_assoc();
+$universal_pengeluaran_osis = $data_universal_pengeluaran['total_pengeluaran'] ?? 0;
+
+$universal_total_kas_osis = $universal_pemasukan_osis - $universal_pengeluaran_osis;
+
+// Output the results (example)
+$pdf->SetFont('Times','B',12);
+$pdf->Cell(0,10,'LAPORAN KAS OSIS',0,1,'C');
+
 $bulan_int = (int)$bulan;
 $pdf->SetFont('Times','I',12);
 $pdf->Cell(0,10,'Dicetak oleh: ' . $nama_pencetak, 0, 1);
@@ -137,14 +156,14 @@ $pdf->Cell(0,10,'Bulan: ' . $nama_bulan[$bulan_int] . ' ' . $tahun, 0, 1);
 $pdf->Ln(2);
 
 $pdf->SetFont('Times','B',12);
-$pdf->Cell(40,10,'Total Pemasukan:', 0, 0);
-$pdf->Cell(50,10,'Rp ' . number_format($total_pemasukan, 0, ',', '.'), 0, 1);
+$pdf->Cell(60,10,'Total Pemasukan Bulan Ini:', 0, 0, 'L');
+$pdf->Cell(30,10,'Rp ' . number_format($total_pemasukan, 0, ',', '.'), 0, 1, 'R');
 
-$pdf->Cell(40,10,'Total Pengeluaran:', 0, 0);
-$pdf->Cell(50,10,'Rp ' . number_format($total_pengeluaran, 0, ',', '.'), 0, 1);
+$pdf->Cell(60,10,'Total Pengeluaran Bulan Ini:', 0, 0, 'L');
+$pdf->Cell(30,10,'Rp ' . number_format($total_pengeluaran, 0, ',', '.'), 0, 1, 'R');
 
-$pdf->Cell(40,10,'Sisa Kas:', 0, 0);
-$pdf->Cell(50,10,'Rp ' . number_format($sisa_kas, 0, ',', '.'), 0, 1);
+$pdf->Cell(60,10,'Sisa Kas (Universal):', 0, 0, 'L');
+$pdf->Cell(30,10,'Rp ' . number_format($universal_total_kas_osis, 0, ',', '.'), 0, 1, 'R');
 $pdf->Ln(4);
 
 $pdf->SetFont('Times','B',12);
