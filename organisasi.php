@@ -75,7 +75,7 @@ $users = select("SELECT * FROM users");
                             <td><?= htmlspecialchars($organisasi['last_edit_by_name']); ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($organisasi['last_edit'])); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOr<?= $organisasi['id_organisasi']; ?>">Ubah</button>
+                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOr<?= $organisasi['id_organisasi']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                             </td>
                         </tr>
                         <?php endforeach; ?>

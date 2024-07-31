@@ -86,6 +86,14 @@
                             <ul class="nav nav-treeview">
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
                                 <li class="nav-item">
+                                    <a href="kas_masuk" class="nav-link">
+                                        <i class="fas fa-dollar-sign nav-icon"></i>
+                                        <p>Kas Masuk</p>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
+                                <li class="nav-item">
                                     <a href="osis" class="nav-link">
                                         <i class="fas fa-dollar-sign nav-icon"></i>
                                         <p>Kas OSIS</p>
@@ -126,13 +134,14 @@
                             </a>
                         </li>
                         <?php endif; ?>
+                        <br>
+                        <br>
                         <li class="nav-item">
-                            <a href="osis_masuk" class="nav-link">
-                                <i class="nav-icon fas fa-scroll"></i>
-                                <p>Laporan</p>
+                            <a href="profil" class="nav-link bg-primary">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>Profile</p>
                             </a>
                         </li>
-                        <br>
                         <li class="nav-item">
                             <a href="logout.php" class="nav-link bg-danger"><i class="nav-icon fas fa-sign-out-alt"></i><p>Log Out</p></a>
                         </li>

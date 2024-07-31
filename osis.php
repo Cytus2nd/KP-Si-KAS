@@ -91,19 +91,19 @@ include 'backend/script_osis.php';
 
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <div>
+                    <div class="col-4">
                         <form method="GET" action="">
                             <div class="input-group">
                                 <input type="text" id="cari" name="cari" class="form-control" placeholder="Cari..." value="<?= htmlspecialchars($cari); ?>">
-                                <button class="btn btn-primary" type="submit">Cari</button>
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search px-1"></i>Cari</button>
                             </div>
                         </form>
                     </div>
-                    <div>
+                    <div class="col-8 d-flex flex-row-reverse">
                     <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambahOsis">Tambah Data</button>
+                        <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalTambahOsis"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
                     <?php endif; ?>
-                        <a href="pdf_report/generate_pdf_osis.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger">Cetak Laporan PDF</a>
+                        <a href="pdf_report/generate_pdf_osis.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger"><i class="fas fa-file-pdf px-1"></i>Cetak Laporan PDF</a>
                     </div>
                 </div>
             </div>
@@ -142,10 +142,10 @@ include 'backend/script_osis.php';
                             <td><?= htmlspecialchars($osis['nama']); ?></td>
                             <td class="text-center">
                                 <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
-                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
-                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>">Hapus</button>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-trash-alt px-1"></i>Hapus</button>
                                 <?php elseif ($_SESSION['jabatan'] == 3): ?>
-                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>">Ubah</button>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                                 <?php endif; ?>
                             </td>
                         </tr>

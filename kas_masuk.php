@@ -18,7 +18,7 @@ include 'backend/masuk.php';
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Pencatatan Kas Masuk oleh OSIS</li>
+                        <li class="breadcrumb-item">Pencatatan Kas Masuk oleh Bendahara OSIS</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -46,7 +46,7 @@ include 'backend/masuk.php';
                         <label for="totalAmount">Jumlah Total Kas :</label>
                         <input type="number" class="form-control" id="totalAmount" name="totalAmount" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Hitung</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-calculator px-2"></i>Hitung</button>
                 </form>
             </div>
             <!-- /.row -->

@@ -17,11 +17,11 @@ if (!isset($_SESSION['login'])) {
         <div class="container-fluid">
             <div class="row mb-1">
                 <div class="col-sm-6">
-                    <h1 class="m-0 fw-bold">Laporan</h1>
+                    <h1 class="m-0 fw-bold">Profile</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Data Laporan</li>
+                        <li class="breadcrumb-item">User Profile</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->

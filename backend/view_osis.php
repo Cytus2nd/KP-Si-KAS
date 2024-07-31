@@ -33,22 +33,44 @@ if (!empty($cari)) {
     $params[] = "%$cari%";
 }
 
-$query .= " ORDER BY kas_osis.created_at DESC";
+$query .= " ORDER BY kas_osis.created_at DESC LIMIT ? OFFSET ?";
+$params[] = $limit;
+$params[] = $offset;
 
 // Prepare statement
 $stmt = $conn->prepare($query);
 
 // Bind parameters dynamically
-$types = str_repeat('s', count($params));
+$types = str_repeat('s', count($params) - 2) . 'ii';
 $stmt->bind_param($types, ...$params);
 
 $stmt->execute();
 $result = $stmt->get_result();
 $data_osis = $result->fetch_all(MYSQLI_ASSOC);
 
-$total_query = str_replace("SELECT kas_osis.*, users.nama", "SELECT COUNT(*) as total", $query);
+// Query to get the total count of data
+$total_query = "
+    SELECT COUNT(*) as total 
+    FROM kas_osis 
+    JOIN users ON kas_osis.id_user = users.id_user 
+    WHERE MONTH(kas_osis.created_at) = ? 
+    AND YEAR(kas_osis.created_at) = ?";
+
+$total_params = [$bulan, $tahun];
+
+if ($tipe_kas != 'semua') {
+    $total_query .= " AND kas_osis.tipe_kas = ?";
+    $total_params[] = $tipe_kas;
+}
+if (!empty($cari)) {
+    $total_query .= " AND (kas_osis.keterangan LIKE ? OR kas_osis.jumlah LIKE ?)";
+    $total_params[] = "%$cari%";
+    $total_params[] = "%$cari%";
+}
+
 $stmt_total = $conn->prepare($total_query);
-$stmt_total->bind_param($types, ...$params);
+$total_types = str_repeat('s', count($total_params));
+$stmt_total->bind_param($total_types, ...$total_params);
 $stmt_total->execute();
 $total_result = $stmt_total->get_result()->fetch_assoc();
 $total_data = $total_result['total'];
@@ -69,3 +91,4 @@ $nama_bulan = [
     11 => 'November',
     12 => 'Desember'
 ];
+
