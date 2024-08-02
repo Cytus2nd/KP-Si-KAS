@@ -14,33 +14,40 @@ if (isset($_POST['login'])) {
   } else {
     $jabatan = $_POST['jabatan'];
 
-    // Cek usn
+    // Cek username
     $result = mysqli_query($conn, "SELECT * FROM users WHERE username='$username'");
 
     if (mysqli_num_rows($result) == 1) {
-        // Ambil hasil query
-        $hasil = mysqli_fetch_assoc($result);
+      // Ambil hasil query
+      $hasil = mysqli_fetch_assoc($result);
 
-      // Cek password
-      if (password_verify($password, $hasil['password'])) {
-            // Cek jabatan
-        if ($hasil['jabatan'] == $jabatan) {
-          // Set sessions
-          $_SESSION['login'] = true;
-          $_SESSION['id_user'] = $hasil['id_user'];
-          $_SESSION['nama'] = $hasil['nama'];
-          $_SESSION['username'] = $hasil['username'];
-          $_SESSION['jabatan'] = $hasil['jabatan'];
+      // Cek apakah user dibanned
+      if ($hasil['is_banned'] == 1) {
+        $error_banned = true;
+      } else {
+        // Cek password
+        if (password_verify($password, $hasil['password'])) {
+          // Cek jabatan
+          if ($hasil['jabatan'] == $jabatan) {
+            // Set sessions
+            $_SESSION['login'] = true;
+            $_SESSION['id_user'] = $hasil['id_user'];
+            $_SESSION['nama'] = $hasil['nama'];
+            $_SESSION['username'] = $hasil['username'];
+            $_SESSION['jabatan'] = $hasil['jabatan'];
 
             // Jika login benar arahkan ke file dashboard
-          header('location: dashboard');
-          exit;
+            header('location: dashboard');
+            exit;
+          } else {
+            $error = true;
+          }
         } else {
           $error = true;
-        } 
-      } else {
-        $error = true;
+        }
       }
+    } else {
+      $error = true;
     }
   }
 }
@@ -94,6 +101,11 @@ if (isset($_POST['login'])) {
           <?php if(isset($error_jabatan)) : ?>
             <div class="alert alert-danger text-center">
               <b>Jabatan Tidak Dipilih</b>
+            </div>
+          <?php endif; ?>
+          <?php if(isset($error_banned)) : ?>
+            <div class="alert alert-danger text-center">
+              <b>Akun Anda telah diNonaktifkan. Silakan hubungi administrator.</b>
             </div>
           <?php endif; ?>
           <div class="input-group mb-3">

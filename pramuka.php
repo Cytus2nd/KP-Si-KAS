@@ -3,12 +3,19 @@ session_start();
 $title = 'Kas Pramuka';
 
 if (!isset($_SESSION['login'])) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
+}
+
+// Restrict access based on jabatan
+if ($_SESSION['jabatan'] == 3 || $_SESSION['jabatan'] == 5 || $_SESSION['jabatan'] == 6) {
+    header('Location: unauthorized'); // Redirect to an unauthorized access page
     exit;
 }
 
 include 'layout/header.php';
 include 'backend/view_pramuka.php';
+include 'backend/script_pramuka.php';
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -75,7 +82,7 @@ include 'backend/view_pramuka.php';
                                 </div>
                             </div>
                             <div class="col-md-2">
-                               
+                                
                             </div>
                         </div>
                     </form>
@@ -84,18 +91,19 @@ include 'backend/view_pramuka.php';
 
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <div>
+                    <div class="col-4">
                         <form method="GET" action="">
                             <div class="input-group">
                                 <input type="text" id="cari" name="cari" class="form-control" placeholder="Cari..." value="<?= htmlspecialchars($cari); ?>">
-                                <button class="btn btn-primary" type="submit">Cari</button>
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search px-1"></i>Cari</button>
                             </div>
                         </form>
                     </div>
-                    <div>
-                        <?php if($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Data</button>
-                        <?php endif; ?>
+                    <div class="col-8 d-flex flex-row-reverse">
+                    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
+                        <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalTambahPramuka"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
+                    <?php endif; ?>
+                        <a href="pdf_report/generate_pdf_pramuka.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger"><i class="fas fa-file-pdf px-1"></i>Cetak Laporan PDF</a>
                     </div>
                 </div>
             </div>
@@ -109,14 +117,15 @@ include 'backend/view_pramuka.php';
                             <th>Jumlah Kas</th>
                             <th>Tipe Kas</th>
                             <th>Keterangan</th>
-                            <th>Dibuat Pada</th>
+                            <th>Last Edit At</th>
+                            <th>Last Edit By</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($data_pramuka)): ?>
                         <tr>
-                            <td colspan="6" class="text-center">Data Tidak Ada</td>
+                            <td colspan="8" class="text-center">Data Tidak Ada</td>
                         </tr>
                         <?php else: ?>
                         <?php $no = $offset + 1; ?>
@@ -124,15 +133,20 @@ include 'backend/view_pramuka.php';
                         <?php foreach ($data_pramuka as $pramuka): ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= htmlspecialchars($pramuka['jumlah']); ?></td>
-                            <td style="color: <?= $pramuka['tipe_kas'] == 'pemasukan' ? 'blue' : ($osis['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
+                            <td>Rp <?= number_format($pramuka['jumlah'], 0, ',', '.'); ?></td>
+                            <td style="color: <?= $pramuka['tipe_kas'] == 'pemasukan' ? 'blue' : ($pramuka['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
                                 <?= htmlspecialchars($pramuka['tipe_kas']); ?>
                             </td>
                             <td><?= htmlspecialchars($pramuka['keterangan']); ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($pramuka['created_at'])); ?></td>
+                            <td><?= htmlspecialchars($pramuka['nama']); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah<?= $pramuka['id_user']; ?>">Ubah</button>
-                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapus<?= $pramuka['id_user']; ?>">Hapus</button>
+                                <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahPramuka<?= $pramuka['id_kas_pramuka']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusPramuka<?= $pramuka['id_kas_pramuka']; ?>"><i class="fas fa-trash-alt px-1"></i>Hapus</button>
+                                <?php elseif ($_SESSION['jabatan'] == 3): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahPramuka<?= $pramuka['id_kas_pramuka']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -157,6 +171,7 @@ include 'backend/view_pramuka.php';
                             <option value="100" <?= ($limit == 100) ? 'selected' : ''; ?>>100</option>
                             <option value="250" <?= ($limit == 250) ? 'selected' : ''; ?>>250</option>
                         </select>
+                        <label for=""> <small>*Sesuaikan Spek Device dengan jumlah data yang ditampilkan</small> </label>
                     </form>
                 </div>
                 <div class="col-md-6 pt-2">
@@ -185,5 +200,105 @@ include 'backend/view_pramuka.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<!-- Modal Tambah -->
+<div class="modal fade" id="modalTambahPramuka" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST">
+                    <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                    <div class="mb-3">
+                        <label for="jumlah">Jumlah Kas</label>
+                        <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" name="keterangan" id="keterangan" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipe_kas">Tipe Kas</label>
+                        <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                            <option value="pengeluaran" selected>Pengeluaran</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                        <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ubah -->
+<?php foreach ($data_pramuka as $pramuka) : ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || ($_SESSION['jabatan'] == 3 && $pramuka['tipe_kas'] == 'pemasukan')): ?>
+        <div class="modal fade" id="modalUbahPramuka<?= $pramuka['id_kas_pramuka']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                            <input type="hidden" name="id_kas_pramuka" value="<?= $pramuka['id_kas_pramuka']; ?>">
+                            <input type="hidden" name="tipe_kas_awal" value="<?= $pramuka['tipe_kas']; ?>">
+                            <div class="mb-3">
+                                <label for="jumlah">Jumlah Kas</label>
+                                <input type="number" name="jumlah" id="jumlah" class="form-control" required value="<?= $pramuka['jumlah']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" name="keterangan" id="keterangan" class="form-control" required value="<?= $pramuka['keterangan']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipe_kas">Tipe Kas</label>
+                                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                                    <option value="pemasukan" <?= $pramuka['tipe_kas'] == 'pemasukan' ? 'selected' : '' ?> <?= $pramuka['tipe_kas'] == 'pengeluaran' ? 'disabled' : '' ?>>Pemasukan</option>
+                                    <option value="pengeluaran" <?= $pramuka['tipe_kas'] == 'pengeluaran' ? 'selected' : '' ?> <?= $pramuka['tipe_kas'] == 'pemasukan' ? 'disabled' : '' ?>>Pengeluaran</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Modal Hapus -->
+<?php foreach ($data_pramuka as $pramuka) : ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+        <div class="modal fade" id="modalHapusPramuka<?= $pramuka['id_kas_pramuka']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data Kas</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Yakin Hapus Data berikut ini ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form action="" method="post">
+                            <input type="hidden" name="id_kas_pramuka" value="<?= $pramuka['id_kas_pramuka']; ?>">
+                            <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
 
 <?php include 'layout/footer.php'; ?>

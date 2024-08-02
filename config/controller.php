@@ -107,6 +107,291 @@
         return mysqli_affected_rows($conn);
     }    
 
+    function create_kas_kkr($post) {
+        global $conn;
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Validasi tipe kas
+        if ($tipe_kas !== 'pemasukan' && $tipe_kas !== 'pengeluaran') {
+            return -3; // Indikator bahwa tipe kas tidak valid
+        }
+    
+        // Ambil total kas tipe pemasukan
+        $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_kkr WHERE tipe_kas = 'pemasukan'";
+        $result = mysqli_query($conn, $query_total_pemasukan);
+        $row = mysqli_fetch_assoc($result);
+        $total_pemasukan = $row['total_pemasukan'] ?? 0;
+    
+        // Ambil total kas tipe pengeluaran
+        $query_total_pengeluaran = "SELECT SUM(jumlah) AS total_pengeluaran FROM kas_kkr WHERE tipe_kas = 'pengeluaran'";
+        $result = mysqli_query($conn, $query_total_pengeluaran);
+        $row = mysqli_fetch_assoc($result);
+        $total_pengeluaran = $row['total_pengeluaran'] ?? 0;
+    
+        // Hitung sisa kas
+        $sisa_kas = $total_pemasukan - $total_pengeluaran;
+    
+        // Pengecekan jumlah kas hanya untuk tipe kas 'pengeluaran'
+        if ($tipe_kas === 'pengeluaran' && $jumlah > $sisa_kas) {
+            return -1; // Indikator bahwa jumlah kas baru lebih besar dari sisa kas
+        }
+    
+        // Query untuk menambahkan data kas
+        $query = "INSERT INTO `kas_kkr`(`jumlah`, `keterangan`, `tipe_kas`, `id_user`) VALUES ('$jumlah', '$keterangan', '$tipe_kas', '$id_user')";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }    
+    
+    function delete_kas_kkr($id_kas_kkr) {
+        global $conn;
+
+        $query = "DELETE FROM kas_kkr WHERE id_kas_kkr = $id_kas_kkr";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }
+
+    function update_kas_kkr($post) {
+        global $conn;
+        $id_kas_kkr = $post['id_kas_kkr'];
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Ambil jumlah sebelumnya dari database
+        $query_sebelumnya = "SELECT jumlah, tipe_kas FROM kas_kkr WHERE id_kas_kkr = $id_kas_kkr";
+        $result_sebelumnya = mysqli_query($conn, $query_sebelumnya);
+        $row_sebelumnya = mysqli_fetch_assoc($result_sebelumnya);
+        $jumlah_sebelumnya = $row_sebelumnya['jumlah'];
+        $tipe_kas_sebelumnya = $row_sebelumnya['tipe_kas'];
+    
+        // Pengecekan jumlah yang diubah tidak boleh lebih kecil dari jumlah sebelumnya jika tipe kas adalah pemasukan
+        if ($tipe_kas_sebelumnya == 'pemasukan' && $jumlah < $jumlah_sebelumnya) {
+            return -3; // Indikator bahwa jumlah baru lebih kecil dari jumlah sebelumnya
+        }
+    
+        if ($tipe_kas == 'pengeluaran') {
+            // Ambil total kas tipe pemasukan
+            $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_kkr WHERE tipe_kas = 'pemasukan'";
+            $result = mysqli_query($conn, $query_total_pemasukan);
+            $row = mysqli_fetch_assoc($result);
+            $total_pemasukan = $row['total_pemasukan'];
+    
+            // Pengecekan jumlah kas
+            if ($jumlah > $total_pemasukan) {
+                return -1; // Indikator bahwa jumlah kas baru lebih besar dari total pemasukan
+            }
+        }
+    
+        // Query untuk mengubah data kas
+        $query = "UPDATE kas_kkr SET jumlah='$jumlah', keterangan='$keterangan', tipe_kas='$tipe_kas', id_user='$id_user' WHERE id_kas_kkr = $id_kas_kkr";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }    
+
+    function create_kas_pramuka($post) {
+        global $conn;
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Validasi tipe kas
+        if ($tipe_kas !== 'pemasukan' && $tipe_kas !== 'pengeluaran') {
+            return -3; // Indikator bahwa tipe kas tidak valid
+        }
+    
+        // Ambil total kas tipe pemasukan
+        $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_pramuka WHERE tipe_kas = 'pemasukan'";
+        $result = mysqli_query($conn, $query_total_pemasukan);
+        $row = mysqli_fetch_assoc($result);
+        $total_pemasukan = $row['total_pemasukan'] ?? 0;
+    
+        // Ambil total kas tipe pengeluaran
+        $query_total_pengeluaran = "SELECT SUM(jumlah) AS total_pengeluaran FROM kas_pramuka WHERE tipe_kas = 'pengeluaran'";
+        $result = mysqli_query($conn, $query_total_pengeluaran);
+        $row = mysqli_fetch_assoc($result);
+        $total_pengeluaran = $row['total_pengeluaran'] ?? 0;
+    
+        // Hitung sisa kas
+        $sisa_kas = $total_pemasukan - $total_pengeluaran;
+    
+        // Pengecekan jumlah kas hanya untuk tipe kas 'pengeluaran'
+        if ($tipe_kas === 'pengeluaran' && $jumlah > $sisa_kas) {
+            return -1; // Indikator bahwa jumlah kas baru lebih besar dari sisa kas
+        }
+    
+        // Query untuk menambahkan data kas
+        $query = "INSERT INTO `kas_pramuka`(`jumlah`, `keterangan`, `tipe_kas`, `id_user`) VALUES ('$jumlah', '$keterangan', '$tipe_kas', '$id_user')";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }    
+    
+    function delete_kas_pramuka($id_kas_pramuka) {
+        global $conn;
+
+        $query = "DELETE FROM kas_pramuka WHERE id_kas_pramuka = $id_kas_pramuka";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }
+
+    function update_kas_pramuka($post) {
+        global $conn;
+        $id_kas_pramuka = $post['id_kas_pramuka'];
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Ambil jumlah sebelumnya dari database
+        $query_sebelumnya = "SELECT jumlah, tipe_kas FROM kas_pramuka WHERE id_kas_pramuka = $id_kas_pramuka";
+        $result_sebelumnya = mysqli_query($conn, $query_sebelumnya);
+        $row_sebelumnya = mysqli_fetch_assoc($result_sebelumnya);
+        $jumlah_sebelumnya = $row_sebelumnya['jumlah'];
+        $tipe_kas_sebelumnya = $row_sebelumnya['tipe_kas'];
+    
+        // Pengecekan jumlah yang diubah tidak boleh lebih kecil dari jumlah sebelumnya jika tipe kas adalah pemasukan
+        if ($tipe_kas_sebelumnya == 'pemasukan' && $jumlah < $jumlah_sebelumnya) {
+            return -3; // Indikator bahwa jumlah baru lebih kecil dari jumlah sebelumnya
+        }
+    
+        if ($tipe_kas == 'pengeluaran') {
+            // Ambil total kas tipe pemasukan
+            $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_pramuka WHERE tipe_kas = 'pemasukan'";
+            $result = mysqli_query($conn, $query_total_pemasukan);
+            $row = mysqli_fetch_assoc($result);
+            $total_pemasukan = $row['total_pemasukan'];
+    
+            // Pengecekan jumlah kas
+            if ($jumlah > $total_pemasukan) {
+                return -1; // Indikator bahwa jumlah kas baru lebih besar dari total pemasukan
+            }
+        }
+    
+        // Query untuk mengubah data kas
+        $query = "UPDATE kas_pramuka SET jumlah='$jumlah', keterangan='$keterangan', tipe_kas='$tipe_kas', id_user='$id_user' WHERE id_kas_pramuka = $id_kas_pramuka";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }    
+
+    function create_kas_pmr($post) {
+        global $conn;
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Validasi tipe kas
+        if ($tipe_kas !== 'pemasukan' && $tipe_kas !== 'pengeluaran') {
+            return -3; // Indikator bahwa tipe kas tidak valid
+        }
+    
+        // Ambil total kas tipe pemasukan
+        $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_pmr WHERE tipe_kas = 'pemasukan'";
+        $result = mysqli_query($conn, $query_total_pemasukan);
+        $row = mysqli_fetch_assoc($result);
+        $total_pemasukan = $row['total_pemasukan'] ?? 0;
+    
+        // Ambil total kas tipe pengeluaran
+        $query_total_pengeluaran = "SELECT SUM(jumlah) AS total_pengeluaran FROM kas_pmr WHERE tipe_kas = 'pengeluaran'";
+        $result = mysqli_query($conn, $query_total_pengeluaran);
+        $row = mysqli_fetch_assoc($result);
+        $total_pengeluaran = $row['total_pengeluaran'] ?? 0;
+    
+        // Hitung sisa kas
+        $sisa_kas = $total_pemasukan - $total_pengeluaran;
+    
+        // Pengecekan jumlah kas hanya untuk tipe kas 'pengeluaran'
+        if ($tipe_kas === 'pengeluaran' && $jumlah > $sisa_kas) {
+            return -1; // Indikator bahwa jumlah kas baru lebih besar dari sisa kas
+        }
+    
+        // Query untuk menambahkan data kas
+        $query = "INSERT INTO `kas_pmr`(`jumlah`, `keterangan`, `tipe_kas`, `id_user`) VALUES ('$jumlah', '$keterangan', '$tipe_kas', '$id_user')";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }    
+    
+    function delete_kas_pmr($id_kas_pmr) {
+        global $conn;
+
+        $query = "DELETE FROM kas_pmr WHERE id_kas_pmr = $id_kas_pmr";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }
+
+    function update_kas_pmr($post) {
+        global $conn;
+        $id_kas_pmr = $post['id_kas_pmr'];
+        $jumlah = strip_tags($post['jumlah']);
+        $keterangan = strip_tags($post['keterangan']);
+        $tipe_kas = strip_tags($post['tipe_kas']);
+        $id_user = strip_tags($post['id_user']);
+    
+        // Validasi jumlah
+        if (!is_numeric($jumlah) || $jumlah <= 0) {
+            return -2; // Indikator bahwa jumlah tidak valid
+        }
+    
+        // Ambil jumlah sebelumnya dari database
+        $query_sebelumnya = "SELECT jumlah, tipe_kas FROM kas_pmr WHERE id_kas_pmr = $id_kas_pmr";
+        $result_sebelumnya = mysqli_query($conn, $query_sebelumnya);
+        $row_sebelumnya = mysqli_fetch_assoc($result_sebelumnya);
+        $jumlah_sebelumnya = $row_sebelumnya['jumlah'];
+        $tipe_kas_sebelumnya = $row_sebelumnya['tipe_kas'];
+    
+        // Pengecekan jumlah yang diubah tidak boleh lebih kecil dari jumlah sebelumnya jika tipe kas adalah pemasukan
+        if ($tipe_kas_sebelumnya == 'pemasukan' && $jumlah < $jumlah_sebelumnya) {
+            return -3; // Indikator bahwa jumlah baru lebih kecil dari jumlah sebelumnya
+        }
+    
+        if ($tipe_kas == 'pengeluaran') {
+            // Ambil total kas tipe pemasukan
+            $query_total_pemasukan = "SELECT SUM(jumlah) AS total_pemasukan FROM kas_pmr WHERE tipe_kas = 'pemasukan'";
+            $result = mysqli_query($conn, $query_total_pemasukan);
+            $row = mysqli_fetch_assoc($result);
+            $total_pemasukan = $row['total_pemasukan'];
+    
+            // Pengecekan jumlah kas
+            if ($jumlah > $total_pemasukan) {
+                return -1; // Indikator bahwa jumlah kas baru lebih besar dari total pemasukan
+            }
+        }
+    
+        // Query untuk mengubah data kas
+        $query = "UPDATE kas_pmr SET jumlah='$jumlah', keterangan='$keterangan', tipe_kas='$tipe_kas', id_user='$id_user' WHERE id_kas_pmr = $id_kas_pmr";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    }
+
     function update_data_or($post) {
         global $conn;
         $id_organisasi = $post['id_organisasi'];
@@ -122,3 +407,26 @@
         mysqli_query($conn, $query);
         return mysqli_affected_rows($conn);
     }
+
+    function create_data_user($post) {
+        global $conn;
+        $nama = strip_tags($post['nama']);
+        $username = strip_tags($post['username']);
+        $password = strip_tags($post['password']);
+        $jabatan = strip_tags($post['jabatan']);
+    
+        // Check if username already exists
+        $username_check_query = "SELECT * FROM `users` WHERE `username` = '$username' LIMIT 1";
+        $result = mysqli_query($conn, $username_check_query);
+    
+        if (mysqli_num_rows($result) > 0) {
+            return 1;
+        } else {
+            // Hash the password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $query = "INSERT INTO `users`(`nama`, `username`, `password`, `jabatan`) VALUES ('$nama','$username','$hashed_password','$jabatan')";
+            mysqli_query($conn, $query);
+            return mysqli_affected_rows($conn);
+        }
+    }
+    

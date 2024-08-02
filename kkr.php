@@ -3,7 +3,13 @@ session_start();
 $title = 'Kas KKR';
 
 if (!isset($_SESSION['login'])) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
+}
+
+// Restrict access based on jabatan
+if ($_SESSION['jabatan'] == 3 || $_SESSION['jabatan'] == 4 || $_SESSION['jabatan'] == 5) {
+    header('Location: unauthorized'); // Redirect to an unauthorized access page
     exit;
 }
 
@@ -76,7 +82,7 @@ include 'backend/script_kkr.php';
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <!-- Space for future use if needed -->
+                                
                             </div>
                         </div>
                     </form>
@@ -85,18 +91,19 @@ include 'backend/script_kkr.php';
 
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <div>
+                    <div class="col-4">
                         <form method="GET" action="">
                             <div class="input-group">
                                 <input type="text" id="cari" name="cari" class="form-control" placeholder="Cari..." value="<?= htmlspecialchars($cari); ?>">
-                                <button class="btn btn-primary" type="submit">Cari</button>
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search px-1"></i>Cari</button>
                             </div>
                         </form>
                     </div>
-                    <div>
-                        <?php if($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">Tambah Data</button>
-                        <?php endif; ?>
+                    <div class="col-8 d-flex flex-row-reverse">
+                    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
+                        <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalTambahKkr"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
+                    <?php endif; ?>
+                        <a href="pdf_report/generate_pdf_kkr.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger"><i class="fas fa-file-pdf px-1"></i>Cetak Laporan PDF</a>
                     </div>
                 </div>
             </div>
@@ -110,14 +117,15 @@ include 'backend/script_kkr.php';
                             <th>Jumlah Kas</th>
                             <th>Tipe Kas</th>
                             <th>Keterangan</th>
-                            <th>Dibuat Pada</th>
+                            <th>Last Edit At</th>
+                            <th>Last Edit By</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($data_kkr)): ?>
                         <tr>
-                            <td colspan="6" class="text-center">Data Tidak Ada</td>
+                            <td colspan="8" class="text-center">Data Tidak Ada</td>
                         </tr>
                         <?php else: ?>
                         <?php $no = $offset + 1; ?>
@@ -125,15 +133,20 @@ include 'backend/script_kkr.php';
                         <?php foreach ($data_kkr as $kkr): ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= htmlspecialchars($kkr['jumlah']); ?></td>
-                            <td style="color: <?= $kkr['tipe_kas'] == 'pemasukan' ? 'blue' : ($osis['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
+                            <td>Rp <?= number_format($kkr['jumlah'], 0, ',', '.'); ?></td>
+                            <td style="color: <?= $kkr['tipe_kas'] == 'pemasukan' ? 'blue' : ($kkr['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
                                 <?= htmlspecialchars($kkr['tipe_kas']); ?>
                             </td>
                             <td><?= htmlspecialchars($kkr['keterangan']); ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($kkr['created_at'])); ?></td>
+                            <td><?= htmlspecialchars($kkr['nama']); ?></td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbah<?= $kkr['id_user']; ?>">Ubah</button>
-                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapus<?= $kkr['id_user']; ?>">Hapus</button>
+                                <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahKkr<?= $kkr['id_kas_kkr']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusKkr<?= $kkr['id_kas_kkr']; ?>"><i class="fas fa-trash-alt px-1"></i>Hapus</button>
+                                <?php elseif ($_SESSION['jabatan'] == 3): ?>
+                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahKkr<?= $kkr['id_kas_kkr']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -158,6 +171,7 @@ include 'backend/script_kkr.php';
                             <option value="100" <?= ($limit == 100) ? 'selected' : ''; ?>>100</option>
                             <option value="250" <?= ($limit == 250) ? 'selected' : ''; ?>>250</option>
                         </select>
+                        <label for=""> <small>*Sesuaikan Spek Device dengan jumlah data yang ditampilkan</small> </label>
                     </form>
                 </div>
                 <div class="col-md-6 pt-2">
@@ -186,5 +200,105 @@ include 'backend/script_kkr.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<!-- Modal Tambah -->
+<div class="modal fade" id="modalTambahKkr" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST">
+                    <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                    <div class="mb-3">
+                        <label for="jumlah">Jumlah Kas</label>
+                        <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" name="keterangan" id="keterangan" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipe_kas">Tipe Kas</label>
+                        <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                            <option value="pengeluaran" selected>Pengeluaran</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                        <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ubah -->
+<?php foreach ($data_kkr as $kkr) : ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || ($_SESSION['jabatan'] == 3 && $kkr['tipe_kas'] == 'pemasukan')): ?>
+        <div class="modal fade" id="modalUbahKkr<?= $kkr['id_kas_kkr']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                            <input type="hidden" name="id_kas_kkr" value="<?= $kkr['id_kas_kkr']; ?>">
+                            <input type="hidden" name="tipe_kas_awal" value="<?= $kkr['tipe_kas']; ?>">
+                            <div class="mb-3">
+                                <label for="jumlah">Jumlah Kas</label>
+                                <input type="number" name="jumlah" id="jumlah" class="form-control" required value="<?= $kkr['jumlah']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" name="keterangan" id="keterangan" class="form-control" required value="<?= $kkr['keterangan']; ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipe_kas">Tipe Kas</label>
+                                <select name="tipe_kas" id="tipe_kas" class="form-select" required>
+                                    <option value="pemasukan" <?= $kkr['tipe_kas'] == 'pemasukan' ? 'selected' : '' ?> <?= $kkr['tipe_kas'] == 'pengeluaran' ? 'disabled' : '' ?>>Pemasukan</option>
+                                    <option value="pengeluaran" <?= $kkr['tipe_kas'] == 'pengeluaran' ? 'selected' : '' ?> <?= $kkr['tipe_kas'] == 'pemasukan' ? 'disabled' : '' ?>>Pengeluaran</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Modal Hapus -->
+<?php foreach ($data_kkr as $kkr) : ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+        <div class="modal fade" id="modalHapusKkr<?= $kkr['id_kas_kkr']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data Kas</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Yakin Hapus Data berikut ini ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form action="" method="post">
+                            <input type="hidden" name="id_kas_kkr" value="<?= $kkr['id_kas_kkr']; ?>">
+                            <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
 
 <?php include 'layout/footer.php'; ?>

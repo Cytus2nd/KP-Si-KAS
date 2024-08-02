@@ -11,7 +11,6 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
 <!-- jQuery -->
 <script src="app/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->

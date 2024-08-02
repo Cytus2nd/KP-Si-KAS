@@ -1,11 +1,11 @@
 <?php 
-if ($_SESSION['jabatan'] == 3 || $_SESSION['jabatan'] == 4 || $_SESSION['jabatan'] == 5) {
+if ($_SESSION['jabatan'] == 3 || $_SESSION['jabatan'] == 4 || $_SESSION['jabatan'] == 6) {
     header('Location: unauthorized');
     exit;
 }
 
 if (isset($_POST["tambah"])) {
-    $result = create_kas_kkr($_POST);
+    $result = create_kas_pmr($_POST);
     if ($result > 0) {
         echo "<script>
                 Swal.fire({
@@ -15,7 +15,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -1) {
@@ -27,7 +27,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -2) {
@@ -39,7 +39,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -3) {
@@ -51,7 +51,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else {
@@ -63,14 +63,14 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     }
 }
 
 if (isset($_POST["ubah"])) {
-    $result = update_kas_kkr($_POST);
+    $result = update_kas_pmr($_POST);
     if ($result > 0) {
         echo "<script>
                 Swal.fire({
@@ -80,7 +80,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -1) {
@@ -92,7 +92,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -2) {
@@ -104,7 +104,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else if ($result == -3) {
@@ -116,7 +116,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else {
@@ -128,7 +128,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     }
@@ -136,8 +136,8 @@ if (isset($_POST["ubah"])) {
 
 // script hapus
 if (isset($_POST["hapus"])) {
-    $id_kas_kkr = (int)$_POST['id_kas_kkr'];
-    $result = delete_kas_kkr($id_kas_kkr);
+    $id_kas_pmr = (int)$_POST['id_kas_pmr'];
+    $result = delete_kas_pmr($id_kas_pmr);
     if ($result > 0) {
         echo "<script>
                 Swal.fire({
@@ -147,7 +147,7 @@ if (isset($_POST["hapus"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     } else {
@@ -159,7 +159,7 @@ if (isset($_POST["hapus"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kkr.php';
+                    window.location = 'pmr.php';
                 });
               </script>";
     }

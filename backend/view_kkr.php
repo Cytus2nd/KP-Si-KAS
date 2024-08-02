@@ -1,4 +1,9 @@
 <?php
+if ($_SESSION['jabatan'] == 3 || $_SESSION['jabatan'] == 4 || $_SESSION['jabatan'] == 5) {
+    header('Location: unauthorized');
+    exit;
+}
+
 // Set default bulan dan tahun ke bulan dan tahun saat ini
 $bulan = isset($_GET['bulan']) ? $_GET['bulan'] : date('m');
 $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
@@ -8,24 +13,68 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 $offset = ($page - 1) * $limit;
 
-// Fetch data kas OSIS berdasarkan bulan, tahun, tipe kas, dan pencarian
-$query = "SELECT * FROM kas_kkr WHERE MONTH(created_at) = $bulan AND YEAR(created_at) = $tahun";
+// Prepare query
+$query = "
+    SELECT kas_kkr.*, users.nama 
+    FROM kas_kkr 
+    JOIN users ON kas_kkr.id_user = users.id_user 
+    WHERE MONTH(kas_kkr.created_at) = ? 
+    AND YEAR(kas_kkr.created_at) = ?";
+
+$params = [$bulan, $tahun];
+
 if ($tipe_kas != 'semua') {
-    $query .= " AND tipe_kas = '$tipe_kas'";
+    $query .= " AND kas_kkr.tipe_kas = ?";
+    $params[] = $tipe_kas;
 }
 if (!empty($cari)) {
-    $query .= " AND (keterangan LIKE '%$cari%' OR jumlah LIKE '%$cari%')";
+    $query .= " AND (kas_kkr.keterangan LIKE ? OR kas_kkr.jumlah LIKE ?)";
+    $params[] = "%$cari%";
+    $params[] = "%$cari%";
 }
 
-// Fetch total data for pagination
-$total_query = str_replace("SELECT *", "SELECT COUNT(*) as total", $query);
-$total_result = select($total_query);
-$total_data = $total_result[0]['total'];
-$total_pages = ceil($total_data / $limit);
+$query .= " ORDER BY kas_kkr.created_at DESC LIMIT ? OFFSET ?";
+$params[] = $limit;
+$params[] = $offset;
 
-// Fetch limited data for current page
-$query .= " LIMIT $limit OFFSET $offset";
-$data_kkr = select($query);
+// Prepare statement
+$stmt = $conn->prepare($query);
+
+// Bind parameters dynamically
+$types = str_repeat('s', count($params) - 2) . 'ii';
+$stmt->bind_param($types, ...$params);
+
+$stmt->execute();
+$result = $stmt->get_result();
+$data_kkr = $result->fetch_all(MYSQLI_ASSOC);
+
+// Query to get the total count of data
+$total_query = "
+    SELECT COUNT(*) as total 
+    FROM kas_kkr 
+    JOIN users ON kas_kkr.id_user = users.id_user 
+    WHERE MONTH(kas_kkr.created_at) = ? 
+    AND YEAR(kas_kkr.created_at) = ?";
+
+$total_params = [$bulan, $tahun];
+
+if ($tipe_kas != 'semua') {
+    $total_query .= " AND kas_kkr.tipe_kas = ?";
+    $total_params[] = $tipe_kas;
+}
+if (!empty($cari)) {
+    $total_query .= " AND (kas_kkr.keterangan LIKE ? OR kas_kkr.jumlah LIKE ?)";
+    $total_params[] = "%$cari%";
+    $total_params[] = "%$cari%";
+}
+
+$stmt_total = $conn->prepare($total_query);
+$total_types = str_repeat('s', count($total_params));
+$stmt_total->bind_param($total_types, ...$total_params);
+$stmt_total->execute();
+$total_result = $stmt_total->get_result()->fetch_assoc();
+$total_data = $total_result['total'];
+$total_pages = ceil($total_data / $limit);
 
 // Array nama bulan
 $nama_bulan = [
@@ -42,3 +91,4 @@ $nama_bulan = [
     11 => 'November',
     12 => 'Desember'
 ];
+
