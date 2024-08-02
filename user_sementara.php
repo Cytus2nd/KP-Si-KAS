@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include 'config/app.php';
 
@@ -8,13 +8,14 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $nama = $_POST['nama'];
     $jabatan = $_POST['jabatan'];
+    $telepon = $_POST['telepon'];
 
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Siapkan statement SQL
-    $stmt = $conn->prepare("INSERT INTO users (username, password, nama, jabatan) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $username, $hashed_password, $nama, $jabatan);
+    $stmt = $conn->prepare("INSERT INTO users (username, password, nama, jabatan, no_telp) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $hashed_password, $nama, $jabatan, $telepon);
 
     if ($stmt->execute()) {
         $success = "User berhasil dibuat.";
@@ -28,19 +29,21 @@ if (isset($_POST['register'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create User</title>
     <!-- Tambahkan link CSS jika diperlukan -->
 </head>
+
 <body>
     <form action="" method="post">
-        <?php if(isset($error)) : ?>
+        <?php if (isset($error)) : ?>
             <div class="alert alert-danger text-center">
                 <b><?php echo $error; ?></b>
             </div>
-        <?php elseif(isset($success)) : ?>
+        <?php elseif (isset($success)) : ?>
             <div class="alert alert-success text-center">
                 <b><?php echo $success; ?></b>
             </div>
@@ -55,6 +58,14 @@ if (isset($_POST['register'])) {
         </div>
         <div class="input-group mb-3">
             <input type="password" class="form-control" placeholder="Masukkan Password..." name="password" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="No Telp" name="telepon" required>
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock"></span>
@@ -95,4 +106,5 @@ if (isset($_POST['register'])) {
         <!-- /.col -->
     </form>
 </body>
+
 </html>

@@ -479,3 +479,97 @@ function update_data_user($post)
         return mysqli_affected_rows($conn);
     }
 }
+
+function update_usn($post)
+{
+    global $conn;
+    $id_user = strip_tags($post['id_user']);
+    $password = strip_tags($post['password-1']);
+    $username = strip_tags($post['username']);
+
+    $pass_query = "SELECT password FROM users WHERE id_user = '$id_user'";
+    $pass_verf = mysqli_query($conn, $pass_query);
+    $row = mysqli_fetch_assoc($pass_verf);
+    $password_db = $row['password'];
+
+    // Check if a similar username already exists excluding the current user
+    $input_usn_query = "SELECT * FROM `users` WHERE `username`='$username' AND `id_user` != '$id_user'";
+    $input_usn = mysqli_query($conn, $input_usn_query);
+
+    if (password_verify($password, $password_db)) {
+        if (mysqli_num_rows($input_usn) > 0) {
+            return 'usn_err';
+        } else {
+            $query = "UPDATE `users` SET `username`='$username' WHERE `id_user`='$id_user'";
+            mysqli_query($conn, $query);
+            return mysqli_affected_rows($conn);
+        }
+    } else {
+        return 'pass_err';
+    }
+}
+
+function update_jk($post)
+{
+    global $conn;
+    $id_user = strip_tags($post['id_user']);
+    $password = strip_tags($post['password-2']);
+    $jenis_kelamin = strip_tags($post['jenis_kelamin']);
+
+    $pass_query = "SELECT password FROM users WHERE id_user = '$id_user'";
+    $pass_verf = mysqli_query($conn, $pass_query);
+    $row = mysqli_fetch_assoc($pass_verf);
+    $password_db = $row['password'];
+
+
+    if (password_verify($password, $password_db)) {
+        $query = "UPDATE `users` SET `jenis_kelamin`='$jenis_kelamin' WHERE `id_user`='$id_user'";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    } else {
+        return 'pass_err';
+    }
+}
+
+function update_pass($post)
+{
+    global $conn;
+    $id_user = strip_tags($post['id_user']);
+    $password = strip_tags($post['password_lama']);
+    $password_baru = strip_tags($post['password_baru']);
+
+    $pass_query = "SELECT password FROM users WHERE id_user = '$id_user'";
+    $pass_verf = mysqli_query($conn, $pass_query);
+    $row = mysqli_fetch_assoc($pass_verf);
+    $password_db = $row['password'];
+
+    if (password_verify($password, $password_db)) {
+        $hashed_pass_baru = password_hash($password_baru, PASSWORD_DEFAULT);
+        $query = "UPDATE `users` SET `password`='$hashed_pass_baru' WHERE `id_user`='$id_user'";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    } else {
+        return 'pass_err';
+    }
+}
+
+function update_telp($post)
+{
+    global $conn;
+    $id_user = strip_tags($post['id_user']);
+    $password = strip_tags($post['password']);
+    $telepon = strip_tags($post['no_telp']);
+
+    $pass_query = "SELECT password FROM users WHERE id_user = '$id_user'";
+    $pass_verf = mysqli_query($conn, $pass_query);
+    $row = mysqli_fetch_assoc($pass_verf);
+    $password_db = $row['password'];
+
+    if (password_verify($password, $password_db)) {
+        $query = "UPDATE `users` SET `no_telp`='$telepon' WHERE `id_user`='$id_user'";
+        mysqli_query($conn, $query);
+        return mysqli_affected_rows($conn);
+    } else {
+        return 'pass_err';
+    }
+}

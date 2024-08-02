@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include 'config/app.php';
 $title = 'Login';
@@ -7,7 +7,7 @@ if (isset($_POST['login'])) {
   // Ambil inputan user
   $username = mysqli_real_escape_string($conn, $_POST['username']);
   $password = mysqli_real_escape_string($conn, $_POST['password']);
-  
+
   // Cek apakah jabatan di-set atau tidak
   if (!isset($_POST['jabatan']) || $_POST['jabatan'] == "0") {
     $error_jabatan = true;
@@ -62,15 +62,13 @@ if (isset($_POST['login'])) {
   <title>SiKas | <?= $title ?></title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="app/plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="app/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- Theme style -->
   <link rel="stylesheet" href="app/dist/css/adminlte.min.css">
   <!-- sweet alert 2 -->
@@ -93,17 +91,17 @@ if (isset($_POST['login'])) {
         <p class="login-box-msg">Harap Masuk Terlebih Dahulu</p>
 
         <form action="" method="POST">
-          <?php if(isset($error)) : ?>
+          <?php if (isset($error)) : ?>
             <div class="alert alert-danger text-center">
               <b>Kredensial Anda Salah</b>
             </div>
           <?php endif; ?>
-          <?php if(isset($error_jabatan)) : ?>
+          <?php if (isset($error_jabatan)) : ?>
             <div class="alert alert-danger text-center">
               <b>Jabatan Tidak Dipilih</b>
             </div>
           <?php endif; ?>
-          <?php if(isset($error_banned)) : ?>
+          <?php if (isset($error_banned)) : ?>
             <div class="alert alert-danger text-center">
               <b>Akun Anda telah diNonaktifkan. Silakan hubungi administrator.</b>
             </div>
@@ -125,24 +123,24 @@ if (isset($_POST['login'])) {
             </div>
           </div>
           <div class="input-group mb-3">
-                <label for="exampleFormControlSelect1">Pilih Jabatan</label>
-                <div class="input-group">
-                    <select class="form-control" name="jabatan" required>
-                        <option value="0" disabled selected>Pilih Jabatan Anda...</option>
-                        <option value="1">Kepala Sekolah</option>
-                        <option value="2">Waka Kesiswaan</option>
-                        <option value="3">Bendahara OSIS</option>
-                        <option value="4">Bendahara Pramuka</option>
-                        <option value="5">Bendahara PMR</option>
-                        <option value="6">Bendahara KKR</option>
-                    </select>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fa fa-tasks"></span>
-                        </div>
-                    </div>
+            <label for="exampleFormControlSelect1">Pilih Jabatan</label>
+            <div class="input-group">
+              <select class="form-control" name="jabatan" required>
+                <option value="0" disabled selected>Pilih Jabatan Anda...</option>
+                <option value="1">Kepala Sekolah</option>
+                <option value="2">Waka Kesiswaan</option>
+                <option value="3">Bendahara OSIS</option>
+                <option value="4">Bendahara Pramuka</option>
+                <option value="5">Bendahara PMR</option>
+                <option value="6">Bendahara KKR</option>
+              </select>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fa fa-tasks"></span>
                 </div>
+              </div>
             </div>
+          </div>
           <!-- /.col -->
           <div class="col-12">
             <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
