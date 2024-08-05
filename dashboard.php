@@ -67,6 +67,41 @@ include 'layout/header.php';
                         </div>
                     </div>
                 </div>
+                <div class="row mt-3 d-flex justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Donut Chart OSIS</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="donutChartOsis" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Line Chart OSIS</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="lineChartOsis" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             <?php } ?>
 
             <!-- Bagian Pramuka -->
@@ -95,6 +130,41 @@ include 'layout/header.php';
                             <div class="card-body d-flex justify-content-center">
                                 <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_pramuka"><?= number_format($universal_total_kas_pramuka) ?></span></p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 d-flex justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Donut Chart Pramuka</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="donutChartPr" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Line Chart Pramuka</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="lineChartPr" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -129,6 +199,41 @@ include 'layout/header.php';
                         </div>
                     </div>
                 </div>
+                <div class="row mt-3 d-flex justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Donut Chart PMR</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="donutChartPm" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Line Chart PMR</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="lineChartPm" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             <?php } ?>
 
             <!-- Bagian KKR -->
@@ -157,6 +262,41 @@ include 'layout/header.php';
                             <div class="card-body d-flex justify-content-center">
                                 <p class="fs-6 fw-bold card-text">Sisa Kas : Rp <span id="total_kas_kkr"><?= number_format($universal_total_kas_kkr) ?></span></p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 d-flex justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Donut Chart KKR</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="donutChartKk" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title fw-bold">Line Chart KKR</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="lineChartKk" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
