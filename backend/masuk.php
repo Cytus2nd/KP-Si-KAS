@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     timer: 10000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'kas_masuk.php';
+                    window.location = 'kas_masuk';
                 });
               </script>";
         exit();
