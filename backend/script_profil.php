@@ -10,7 +10,7 @@ if (isset($_POST["ubah_usn"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } elseif ($result === 'usn_err') {
@@ -22,7 +22,7 @@ if (isset($_POST["ubah_usn"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -34,7 +34,7 @@ if (isset($_POST["ubah_usn"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } else {
@@ -46,7 +46,7 @@ if (isset($_POST["ubah_usn"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     }
@@ -63,7 +63,7 @@ if (isset($_POST["ubah_jk"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -75,7 +75,7 @@ if (isset($_POST["ubah_jk"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } else {
@@ -87,7 +87,7 @@ if (isset($_POST["ubah_jk"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     }
@@ -104,7 +104,7 @@ if (isset($_POST["ubah_pass"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -116,7 +116,7 @@ if (isset($_POST["ubah_pass"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } else {
@@ -128,7 +128,7 @@ if (isset($_POST["ubah_pass"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     }
@@ -145,7 +145,7 @@ if (isset($_POST["ubah_telp"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -157,7 +157,7 @@ if (isset($_POST["ubah_telp"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     } else {
@@ -169,7 +169,7 @@ if (isset($_POST["ubah_telp"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'profil.php';
+                    window.location = 'profil';
                 });
               </script>";
     }

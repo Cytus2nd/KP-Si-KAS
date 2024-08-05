@@ -1,4 +1,9 @@
 <?php
+if ($_SESSION['jabatan'] >= 3) {
+    header('Location: unauthorized');
+    exit;
+}
+
 // script ubah
 if (isset($_POST["tambah"])) {
     $result = create_data_user($_POST);
@@ -11,7 +16,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -23,7 +28,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     } else {
@@ -35,7 +40,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     }
@@ -52,7 +57,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     } elseif ($result > 0) {
@@ -64,7 +69,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     } else {
@@ -76,7 +81,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'user.php';
+                    window.location = 'user';
                 });
               </script>";
     }

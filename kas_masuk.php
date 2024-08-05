@@ -1,5 +1,15 @@
 <?php
 session_start();
+if (!isset($_SESSION['login'])) {
+    header('Location: login');
+    exit;
+}
+
+if ($_SESSION['jabatan'] >= 4) {
+    header('Location: unauthorized');
+    exit;
+}
+
 ob_start(); // Start output buffering
 
 $title = 'Kas Masuk oleh OSIS';
@@ -50,22 +60,22 @@ include 'backend/masuk.php';
                 </form>
             </div>
             <!-- /.row -->
-            
-            <?php if ($results): ?>
-            <div class="row mt-3">
-                <div class="col-md-12 alert-danger pt-3 rounded">
-                    <h4>Hasil Pembagian Uang Kas:</h4>
-                    <ul style="list-style-type: none;">
-                        <li>OSIS    : <span class="fw-bold">Rp <?php echo number_format($results['osis'], 0, ',', '.'); ?></span></li>
-                        <li>Pramuka : <span class="fw-bold">Rp <?php echo number_format($results['pramuka'], 0, ',', '.'); ?></span></li>
-                        <li>KKR     : <span class="fw-bold">Rp <?php echo number_format($results['kkr'], 0, ',', '.'); ?></span></li>
-                        <li>PMR     : <span class="fw-bold">Rp <?php echo number_format($results['pmr'], 0, ',', '.'); ?></span></li>
-                        <li><strong>Total: Rp <?php echo number_format($results['total'], 0, ',', '.'); ?></strong></li>
-                    </ul>
-                    <p class="fw-bold">CATATAN : Mohon Jangan diRefresh halaman ini jika data diatas belum dicatat/note. Dikarenakan data hasil pembagian akan hilang setelah direfresh </p>
-                    <p>*Data Hasil Bagi diatas akan otomatis masuk kedalam tabel masing-masing organisasi</p>
+
+            <?php if ($results) : ?>
+                <div class="row mt-3">
+                    <div class="col-md-12 alert-danger pt-3 rounded">
+                        <h4>Hasil Pembagian Uang Kas:</h4>
+                        <ul style="list-style-type: none;">
+                            <li>OSIS : <span class="fw-bold">Rp <?php echo number_format($results['osis'], 0, ',', '.'); ?></span></li>
+                            <li>Pramuka : <span class="fw-bold">Rp <?php echo number_format($results['pramuka'], 0, ',', '.'); ?></span></li>
+                            <li>KKR : <span class="fw-bold">Rp <?php echo number_format($results['kkr'], 0, ',', '.'); ?></span></li>
+                            <li>PMR : <span class="fw-bold">Rp <?php echo number_format($results['pmr'], 0, ',', '.'); ?></span></li>
+                            <li><strong>Total: Rp <?php echo number_format($results['total'], 0, ',', '.'); ?></strong></li>
+                        </ul>
+                        <p class="fw-bold">CATATAN : Mohon Jangan diRefresh halaman ini jika data diatas belum dicatat/note. Dikarenakan data hasil pembagian akan hilang setelah direfresh </p>
+                        <p>*Data Hasil Bagi diatas akan otomatis masuk kedalam tabel masing-masing organisasi</p>
+                    </div>
                 </div>
-            </div>
             <?php endif; ?>
         </div><!-- /.container-fluid -->
     </div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 if ($_SESSION['jabatan'] >= 4) {
     header('Location: unauthorized');
     exit;
@@ -15,7 +15,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -1) {
@@ -27,7 +27,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -2) {
@@ -39,7 +39,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -3) {
@@ -51,7 +51,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else {
@@ -63,7 +63,7 @@ if (isset($_POST["tambah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     }
@@ -80,7 +80,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -1) {
@@ -92,7 +92,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -2) {
@@ -104,7 +104,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else if ($result == -3) {
@@ -116,7 +116,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else {
@@ -128,7 +128,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     }
@@ -147,7 +147,7 @@ if (isset($_POST["hapus"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     } else {
@@ -159,10 +159,8 @@ if (isset($_POST["hapus"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'osis.php';
+                    window.location = 'osis';
                 });
               </script>";
     }
 }
-
-

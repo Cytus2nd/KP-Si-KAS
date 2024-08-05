@@ -1,4 +1,8 @@
 <?php
+if ($_SESSION['jabatan'] >= 3) {
+    header('Location: unauthorized');
+    exit;
+}
 
 function getTotalPages($table, $limit, $is_banned, $cari)
 {

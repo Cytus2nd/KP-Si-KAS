@@ -3,7 +3,12 @@ session_start();
 $title = 'Data Organisasi';
 
 if (!isset($_SESSION['login'])) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
+}
+
+if ($_SESSION['jabatan'] >= 3) {
+    header('Location: unauthorized');
     exit;
 }
 

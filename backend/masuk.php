@@ -1,6 +1,12 @@
-<?php 
+<?php
+if ($_SESSION['jabatan'] >= 4) {
+    header('Location: unauthorized');
+    exit;
+}
+
 // Function to round values according to the specified logic
-function roundValue($value) {
+function roundValue($value)
+{
     $remainder = $value % 100;
     if ($remainder < 50) {
         return $value - $remainder;
@@ -10,7 +16,8 @@ function roundValue($value) {
 }
 
 // Function to insert values into the database
-function insertToDatabase($conn, $amount, $keterangan, $tipe_kas, $table, $id_user) {
+function insertToDatabase($conn, $amount, $keterangan, $tipe_kas, $table, $id_user)
+{
     $stmt = $conn->prepare("INSERT INTO $table (jumlah, keterangan, tipe_kas, id_user, created_at) VALUES (?, ?, ?, ?, NOW())");
     $stmt->bind_param("issi", $amount, $keterangan, $tipe_kas, $id_user);
     $stmt->execute();

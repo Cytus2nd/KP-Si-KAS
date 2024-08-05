@@ -48,7 +48,7 @@ include 'backend/script_osis.php';
                                 <div class="form-group">
                                     <label for="bulan">Bulan:</label>
                                     <select id="bulan" name="bulan" class="form-select" onchange="document.getElementById('filterForm').submit()">
-                                        <?php 
+                                        <?php
                                         foreach ($nama_bulan as $num => $name) {
                                             $selected = ($num == $bulan) ? 'selected' : '';
                                             echo "<option value='$num' $selected>$name</option>";
@@ -61,7 +61,7 @@ include 'backend/script_osis.php';
                                 <div class="form-group">
                                     <label for="tahun">Tahun:</label>
                                     <select id="tahun" name="tahun" class="form-select" onchange="document.getElementById('filterForm').submit()">
-                                        <?php 
+                                        <?php
                                         $currentYear = date('Y');
                                         for ($i = $currentYear; $i <= $currentYear + 5; $i++) {
                                             $selected = ($i == $tahun) ? 'selected' : '';
@@ -82,7 +82,7 @@ include 'backend/script_osis.php';
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                
+
                             </div>
                         </div>
                     </form>
@@ -100,9 +100,9 @@ include 'backend/script_osis.php';
                         </form>
                     </div>
                     <div class="col-8 d-flex flex-row-reverse">
-                    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
-                        <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalTambahOsis"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
-                    <?php endif; ?>
+                        <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || $_SESSION['jabatan'] == 3) : ?>
+                            <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#modalTambahOsis"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
+                        <?php endif; ?>
                         <a href="pdf_report/generate_pdf_osis.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" class="btn btn-danger"><i class="fas fa-file-pdf px-1"></i>Cetak Laporan PDF</a>
                     </div>
                 </div>
@@ -110,49 +110,47 @@ include 'backend/script_osis.php';
 
             <div class="row">
                 <div style="overflow-x: auto;">
-                <table class="table table-bordered table-light table-striped" id="tabel">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Jumlah Kas</th>
-                            <th>Tipe Kas</th>
-                            <th>Keterangan</th>
-                            <th>Last Edit At</th>
-                            <th>Last Edit By</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($data_osis)): ?>
-                        <tr>
-                            <td colspan="8" class="text-center">Data Tidak Ada</td>
-                        </tr>
-                        <?php else: ?>
-                        <?php $no = $offset + 1; ?>
-                        <!-- view all data  -->
-                        <?php foreach ($data_osis as $osis): ?>
-                        <tr>
-                            <td><?= $no++; ?></td>
-                            <td>Rp <?= number_format($osis['jumlah'], 0, ',', '.'); ?></td>
-                            <td style="color: <?= $osis['tipe_kas'] == 'pemasukan' ? 'blue' : ($osis['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
-                                <?= htmlspecialchars($osis['tipe_kas']); ?>
-                            </td>
-                            <td><?= htmlspecialchars($osis['keterangan']); ?></td>
-                            <td><?= date('d/m/Y H:i', strtotime($osis['created_at'])); ?></td>
-                            <td><?= htmlspecialchars($osis['nama']); ?></td>
-                            <td class="text-center">
-                                <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
-                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
-                                    <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-trash-alt px-1"></i>Hapus</button>
-                                <?php elseif ($_SESSION['jabatan'] == 3): ?>
-                                    <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                    <table class="table table-bordered table-light table-striped" id="tabel">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Jumlah Kas</th>
+                                <th>Tipe Kas</th>
+                                <th>Keterangan</th>
+                                <th>Last Edit At</th>
+                                <th>Last Edit By</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($data_osis)) : ?>
+                                <tr>
+                                    <td colspan="8" class="text-center">Data Tidak Ada</td>
+                                </tr>
+                            <?php else : ?>
+                                <?php $no = $offset + 1; ?>
+                                <!-- view all data  -->
+                                <?php foreach ($data_osis as $osis) : ?>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td>Rp <?= number_format($osis['jumlah'], 0, ',', '.'); ?></td>
+                                        <td style="color: <?= $osis['tipe_kas'] == 'pemasukan' ? 'blue' : ($osis['tipe_kas'] == 'pengeluaran' ? 'red' : ''); ?>;">
+                                            <?= htmlspecialchars($osis['tipe_kas']); ?>
+                                        </td>
+                                        <td><?= htmlspecialchars($osis['keterangan']); ?></td>
+                                        <td><?= date('d/m/Y H:i', strtotime($osis['created_at'])); ?></td>
+                                        <td><?= htmlspecialchars($osis['nama']); ?></td>
+                                        <td class="text-center">
+                                            <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2) : ?>
+                                                <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
+                                                <button type="button" class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#modalHapusOsis<?= $osis['id_kas_osis']; ?>"><i class="fas fa-trash-alt px-1"></i>Hapus</button>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- Pagination -->
@@ -182,7 +180,7 @@ include 'backend/script_osis.php';
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                            <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
                                 <li class="page-item <?= ($page == $i) ? 'active' : ''; ?>"><a class="page-link" href="?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>&tipe_kas=<?= $tipe_kas ?>&cari=<?= $cari ?>&limit=<?= $limit ?>&page=<?= $i ?>"><?= $i ?></a></li>
                             <?php endfor; ?>
                             <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : ''; ?>">
@@ -237,7 +235,7 @@ include 'backend/script_osis.php';
 
 <!-- Modal Ubah -->
 <?php foreach ($data_osis as $osis) : ?>
-    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || ($_SESSION['jabatan'] == 3 && $osis['tipe_kas'] == 'pemasukan')): ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2 || ($_SESSION['jabatan'] == 3 && $osis['tipe_kas'] == 'pemasukan')) : ?>
         <div class="modal fade" id="modalUbahOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -278,7 +276,7 @@ include 'backend/script_osis.php';
 
 <!-- Modal Hapus -->
 <?php foreach ($data_osis as $osis) : ?>
-    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2): ?>
+    <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2) : ?>
         <div class="modal fade" id="modalHapusOsis<?= $osis['id_kas_osis']; ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

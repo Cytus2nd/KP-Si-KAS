@@ -1,6 +1,17 @@
 <?php
+// THIS IS FOR TESTING AND CREATE NEW USER ONLY NOT INTENDED FOR USE
 session_start();
 include 'config/app.php';
+
+if (!isset($_SESSION['login'])) {
+    header('Location: login');
+    exit;
+}
+
+if ($_SESSION['jabatan'] >= 1) {
+    header('Location: unauthorized');
+    exit;
+}
 
 if (isset($_POST['register'])) {
     // Ambil inputan user

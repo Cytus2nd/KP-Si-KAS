@@ -5,20 +5,19 @@
     <meta charset="UTF-8">
     <title>Si KAS | Landing Page</title>
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" href="./assets/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="app/plugins/fontawesome-free/css/all.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#">
-                <img src="./assets/img/logo.png" alt="Logo" width="90" height="70"
-                    class="d-inline-block align-text-center">
+                <img src="./assets/img/logo.png" alt="Logo" width="90" height="70" class="d-inline-block align-text-center">
                 <span class="fs-3 pt-3 text-primary">SMAS</span> MAIREYAWIRA
             </a>
-            <a class="btn btn-primary btn-lg" href="login">Login</a>
+            <a class="btn btn-primary btn-lg px-3" href="login"><i class="fas fa-unlock px-2"></i>Login</a>
         </div>
     </nav>
 
@@ -40,9 +39,7 @@
             </div>
         </footer>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,4 +1,9 @@
 <?php
+if ($_SESSION['jabatan'] >= 3) {
+    header('Location: unauthorized');
+    exit;
+}
+
 // script ubah
 if (isset($_POST["ubah"])) {
     $result = update_data_or($_POST);
@@ -11,7 +16,7 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'organisasi.php';
+                    window.location = 'organisasi';
                 });
               </script>";
     } else {
@@ -23,8 +28,8 @@ if (isset($_POST["ubah"])) {
                     timer: 8000,
                     confirmButtonText: 'OK'
                 }).then(function() {
-                    window.location = 'organisasi.php';
+                    window.location = 'organisasi';
                 });
               </script>";
-    } 
+    }
 }

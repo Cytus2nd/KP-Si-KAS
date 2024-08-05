@@ -1,5 +1,10 @@
-<?php 
+<?php
 session_start();
+if (!isset($_SESSION['login'])) {
+    header('Location: login');
+    exit;
+}
+
 $title = 'Unauthorized Access';
 
 include 'layout/header.php';
@@ -40,4 +45,4 @@ include 'layout/header.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<?php include 'layout/footer.php';?>
+<?php include 'layout/footer.php'; ?>

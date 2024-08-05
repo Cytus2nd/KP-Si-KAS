@@ -1,7 +1,7 @@
-<?php 
-    include 'config/app.php';
-    $nama = $_SESSION['nama'];
-    $jabatan = $_SESSION['jabatan'];
+<?php
+include 'config/app.php';
+$nama = $_SESSION['nama'];
+$jabatan = $_SESSION['jabatan'];
 ?>
 
 <!DOCTYPE html>
@@ -67,13 +67,13 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
-                        <li class="nav-item">
-                            <a href="organisasi" class="nav-link">
-                                <i class="nav-icon fas fa-sitemap"></i>
-                                <p>Organisasi</p>
-                            </a>
-                        </li>
+                        <?php if ($jabatan == 1 || $jabatan == 2) : ?>
+                            <li class="nav-item">
+                                <a href="organisasi" class="nav-link">
+                                    <i class="nav-icon fas fa-sitemap"></i>
+                                    <p>Organisasi</p>
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <li class="nav-item menu-close">
                             <a class="nav-link">
@@ -85,54 +85,54 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
-                                <li class="nav-item">
-                                    <a href="kas_masuk" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas Masuk</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="kas_masuk" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Kas Masuk</p>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 3) : ?>
-                                <li class="nav-item">
-                                    <a href="osis" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas OSIS</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="osis" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Kas OSIS</p>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 4) : ?>
-                                <li class="nav-item">
-                                    <a href="pramuka" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas Pramuka</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="pramuka" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Kas Pramuka</p>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 5) : ?>
-                                <li class="nav-item">
-                                    <a href="pmr" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas PMR</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="pmr" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Kas PMR</p>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                                 <?php if ($jabatan == 1 || $jabatan == 2 || $jabatan == 6) : ?>
-                                <li class="nav-item">
-                                    <a href="kkr" class="nav-link">
-                                        <i class="fas fa-dollar-sign nav-icon"></i>
-                                        <p>Kas KKR</p>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a href="kkr" class="nav-link">
+                                            <i class="fas fa-dollar-sign nav-icon"></i>
+                                            <p>Kas KKR</p>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
                             </ul>
                         </li>
                         <?php if ($jabatan == 1 || $jabatan == 2) : ?>
-                        <li class="nav-item">
-                            <a href="user" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>User</p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="user" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>User</p>
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <br>
                         <br>
@@ -143,8 +143,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="logout.php" class="nav-link bg-danger">
-                                <i class="nav-icon fas fa-sign-out-alt"></i><p>Log Out</p>
+                            <a href="logout" class="nav-link bg-danger">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>Log Out</p>
                             </a>
                         </li>
                     </ul>

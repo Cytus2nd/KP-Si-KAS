@@ -3,7 +3,12 @@ session_start();
 $title = 'Data User';
 
 if (!isset($_SESSION['login'])) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
+}
+
+if ($_SESSION['jabatan'] >= 3) {
+    header('Location: unauthorized');
     exit;
 }
 
@@ -72,7 +77,7 @@ $jabatan = select("SELECT * FROM jabatan");
                         <div class="col-8">
                             <div>
                                 <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2) : ?>
-                                    <button class="mx-3 btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#modalTambahUs">Tambah Data</button>
+                                    <button class="mx-3 btn btn-primary" style="float: right;" data-bs-toggle="modal" data-bs-target="#modalTambahUs"><i class="fas fa-plus-circle px-1"></i>Tambah Data</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -115,7 +120,7 @@ $jabatan = select("SELECT * FROM jabatan");
                                         </td>
                                         <td><?= date('d/m/Y H:i', strtotime($user['created_at'])); ?></td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahUs<?= $user['id_user']; ?>">Ubah</button>
+                                            <button type="button" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#modalUbahUs<?= $user['id_user']; ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

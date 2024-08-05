@@ -53,20 +53,20 @@ $user = mysqli_fetch_assoc($result);
                             <p class="mb-0">
                                 <strong class="">Username : </strong><span> <?= htmlspecialchars($user['username']); ?></span>
                             </p>
-                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-usn" data-bs-toggle="modal" data-bs-target="#modalUbahUsn<?= $id_user ?>">Ubah</button>
+                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-usn" data-bs-toggle="modal" data-bs-target="#modalUbahUsn<?= $id_user ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                         </li>
                         <li class="list-group-item"><strong>Jabatan : </strong> <?= htmlspecialchars($user['nama_jabatan']); ?></li>
                         <li class="d-flex align-items-center list-group-item">
                             <p class="mb-0">
                                 <strong class="">Jenis Kelamin : </strong><span> <?= htmlspecialchars($user['jenis_kelamin']); ?></span>
                             </p>
-                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-jk" data-bs-toggle="modal" data-bs-target="#modalUbahJk<?= $id_user ?>">Ubah</button>
+                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-jk" data-bs-toggle="modal" data-bs-target="#modalUbahJk<?= $id_user ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                         </li>
                         <li class="d-flex align-items-center list-group-item">
                             <p class="mb-0">
                                 <strong class="">No Telepon : </strong><span> <?= htmlspecialchars($user['no_telp']); ?></span>
                             </p>
-                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-telp" data-bs-toggle="modal" data-bs-target="#modalUbahTelp<?= $id_user ?>">Ubah</button>
+                            <button type="button" class="ms-auto btn btn-success btn-sm" name="ubah-telp" data-bs-toggle="modal" data-bs-target="#modalUbahTelp<?= $id_user ?>"><i class="fas fa-edit px-1"></i>Ubah</button>
                         </li>
                         <li class="list-group-item"><strong>Status Akun : </strong> <span class="fw-bold <?= ($user['is_banned'] == 0) ? 'text-success' : 'text-danger'; ?>"><?= ($user['is_banned'] == 0) ? 'AKTIF' : 'NONAKTIF'; ?></span></li>
                     </ul>
