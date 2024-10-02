@@ -39,264 +39,94 @@
     var pemasukan_kkr = <?php echo json_encode($pemasukan_kkr); ?>;
     var pengeluaran_kkr = <?php echo json_encode($pengeluaran_kkr); ?>;
 
-    $(function() {
-        // donut chart osis
-        var donutChartCanvas = $('#donutChartOsis').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Pemasukan',
-                'Pengeluaran',
-            ],
-            datasets: [{
-                data: [pemasukan_osis, pengeluaran_osis],
-                backgroundColor: ['#00a65a', '#f56954'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-        // line chart osis
-        var lineChartCanvas = $('#lineChartOsis').get(0).getContext('2d')
-        var lineChartData = {
-            labels: ['Pemasukan', 'Pengeluaran'],
-            datasets: [{
-                label: 'Keuangan',
-                data: [pemasukan_osis, pengeluaran_osis],
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                fill: false,
-            }]
-        }
-
-        var lineChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            var value = tooltipItem.raw;
-                            return 'Rp ' + value.toLocaleString();
-                        }
+    $(document).ready(function() {
+        // Fungsi untuk membuat chart donat
+        function createDonutChart(elementId, data) {
+            var canvas = $('#' + elementId);
+            if (canvas.length) {
+                var context = canvas.get(0).getContext('2d');
+                new Chart(context, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Pemasukan', 'Pengeluaran'],
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ['#00a65a', '#f56954'],
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
                     }
-                }
+                });
+            } else {
+                console.error('Canvas element #' + elementId + ' not found');
             }
         }
 
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        })
-
-        // donut chart pramuka
-        var donutChartCanvas = $('#donutChartPr').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Pemasukan',
-                'Pengeluaran',
-            ],
-            datasets: [{
-                data: [pemasukan_pramuka, pengeluaran_pramuka],
-                backgroundColor: ['#00a65a', '#f56954'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-        // line chart pramuka
-        var lineChartCanvas = $('#lineChartPr').get(0).getContext('2d')
-        var lineChartData = {
-            labels: ['Pemasukan', 'Pengeluaran'],
-            datasets: [{
-                label: 'Keuangan',
-                data: [pemasukan_pramuka, pengeluaran_pramuka],
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                fill: false,
-            }]
-        }
-
-        var lineChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            var value = tooltipItem.raw;
-                            return 'Rp ' + value.toLocaleString();
+        // Fungsi untuk membuat chart garis
+        function createLineChart(elementId, data) {
+            var canvas = $('#' + elementId);
+            if (canvas.length) {
+                var context = canvas.get(0).getContext('2d');
+                new Chart(context, {
+                    type: 'line',
+                    data: {
+                        labels: ['Pemasukan', 'Pengeluaran'],
+                        datasets: [{
+                            label: 'Keuangan',
+                            data: data,
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            fill: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        var value = tooltipItem.raw;
+                                        return 'Rp ' + value.toLocaleString();
+                                    }
+                                }
+                            }
                         }
                     }
-                }
+                });
+            } else {
+                console.error('Canvas element #' + elementId + ' not found');
             }
         }
 
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        })
+        // Membuat chart OSIS
+        createDonutChart('donutChartOsis', [pemasukan_osis, pengeluaran_osis]);
+        createLineChart('lineChartOsis', [pemasukan_osis, pengeluaran_osis]);
 
-        // donut chart pmr
-        var donutChartCanvas = $('#donutChartPm').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Pemasukan',
-                'Pengeluaran',
-            ],
-            datasets: [{
-                data: [pemasukan_pmr, pengeluaran_pmr],
-                backgroundColor: ['#00a65a', '#f56954'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
+        // Membuat chart Pramuka
+        createDonutChart('donutChartPr', [pemasukan_pramuka, pengeluaran_pramuka]);
+        createLineChart('lineChartPr', [pemasukan_pramuka, pengeluaran_pramuka]);
 
-        // line chart pmr
-        var lineChartCanvas = $('#lineChartPm').get(0).getContext('2d')
-        var lineChartData = {
-            labels: ['Pemasukan', 'Pengeluaran'],
-            datasets: [{
-                label: 'Keuangan',
-                data: [pemasukan_pmr, pengeluaran_pmr],
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                fill: false,
-            }]
-        }
+        // Membuat chart PMR
+        createDonutChart('donutChartPm', [pemasukan_pmr, pengeluaran_pmr]);
+        createLineChart('lineChartPm', [pemasukan_pmr, pengeluaran_pmr]);
 
-        var lineChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            var value = tooltipItem.raw;
-                            return 'Rp ' + value.toLocaleString();
-                        }
-                    }
-                }
-            }
-        }
-
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        })
-
-        // donut chart kkr
-        var donutChartCanvas = $('#donutChartKk').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Pemasukan',
-                'Pengeluaran',
-            ],
-            datasets: [{
-                data: [pemasukan_kkr, pengeluaran_kkr],
-                backgroundColor: ['#00a65a', '#f56954'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-        // line chart pramuka
-        var lineChartCanvas = $('#lineChartKk').get(0).getContext('2d')
-        var lineChartData = {
-            labels: ['Pemasukan', 'Pengeluaran'],
-            datasets: [{
-                label: 'Keuangan',
-                data: [pemasukan_kkr, pengeluaran_kkr],
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                fill: false,
-            }]
-        }
-
-        var lineChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    beginAtZero: true
-                },
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            var value = tooltipItem.raw;
-                            return 'Rp ' + value.toLocaleString();
-                        }
-                    }
-                }
-            }
-        }
-
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        })
-    })
+        // Membuat chart KKR
+        createDonutChart('donutChartKk', [pemasukan_kkr, pengeluaran_kkr]);
+        createLineChart('lineChartKk', [pemasukan_kkr, pengeluaran_kkr]);
+    });
 </script>
+
 
 </body>
 

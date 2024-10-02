@@ -308,5 +308,5 @@ include 'layout/header.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
+<!-- chart script -->
 <?php include 'layout/footer.php'; ?>
