@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#">
                 <img src="./assets/img/logo.png" alt="Logo" width="90" height="70" class="d-inline-block align-text-center">
-                <span class="fs-3 pt-3 text-primary">SMAS</span> MAIREYAWIRA
+                <span class="fs-3 pt-3 text-primary">SMAS</span> MAITREYAWIRA
             </a>
             <a class="btn btn-primary btn-lg px-3" href="login"><i class="fas fa-unlock px-2"></i>Login</a>
         </div>

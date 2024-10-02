@@ -1,6 +1,6 @@
 /* login php */
 body {
-    background-image: url('https://primetimes.id/wp-content/uploads/2020/03/images-5.jpeg'); /* Replace with the path to your image */
+    background-image: url('../img/smamw.webp'); /* Replace with the path to your image */
     background-size: cover; /* Ensures the background covers the entire area */
     background-repeat: no-repeat; /* Prevents the background from repeating */
     background-position: center; /* Centers the background image */
