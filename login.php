@@ -142,7 +142,7 @@ if (isset($_POST['login'])) {
             </div>
           </div>
           <div class="">
-            <a href="reset">Forgot Password?</a>
+            <a href="otp">Forgot Password?</a>
           </div>
           <!-- /.col -->
           <div class="col-12">
