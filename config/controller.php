@@ -573,3 +573,20 @@ function update_telp($post)
         return 'pass_err';
     }
 }
+
+function update_pass_otp($post)
+{
+    global $conn;
+    $id_user = strip_tags($post['id_user']);
+    $password_baru = strip_tags($post['password_baru']);
+
+    // Hash password baru
+    $hashed_pass_baru = password_hash($password_baru, PASSWORD_DEFAULT);
+
+    // Update password baru ke database
+    $query = "UPDATE `users` SET `password`='$hashed_pass_baru' WHERE `id_user`='$id_user'";
+    mysqli_query($conn, $query);
+
+    // Mengembalikan jumlah baris yang terpengaruh
+    return mysqli_affected_rows($conn);
+}

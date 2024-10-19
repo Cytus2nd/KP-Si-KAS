@@ -1,4 +1,5 @@
 <?php
+session_start(); // Aktifkan session
 include 'config/app.php';
 
 if (isset($_POST['submit-otp'])) {
@@ -9,7 +10,7 @@ if (isset($_POST['submit-otp'])) {
         // Nomor sudah dalam format yang benar
     } elseif (strpos($nomor, '62') === 0) {
         // Ubah dari format 62 ke format 0
-        $nomor = '0' . substr($nomor, 2); // Mengubah 628123456789 menjadi 08123456789
+        $nomor = '0' . substr($nomor, 2);
     } else {
         // Jika tidak ada prefix, tambahkan 0 di depan
         $nomor = '0' . $nomor;
@@ -58,11 +59,10 @@ if (isset($_POST['submit-otp'])) {
 
     // Cek apakah nomor HP sudah dalam format 0
     if (strpos($nomor, '0') !== 0) {
-        // Ubah dari format 62 ke format 0
         if (strpos($nomor, '62') === 0) {
-            $nomor = '0' . substr($nomor, 2); // Mengubah 628123456789 menjadi 08123456789
+            $nomor = '0' . substr($nomor, 2);
         } else {
-            $nomor = '0' . $nomor; // Menambahkan 0 jika tidak ada prefix
+            $nomor = '0' . $nomor;
         }
     }
 
@@ -79,17 +79,21 @@ if (isset($_POST['submit-otp'])) {
 
             if ($user_data) {
                 $id_user = $user_data['id_user'];
-                // Arahkan ke halaman reset password
-                header("Location: reset_password.php?id_user=$id_user");
+
+                // Simpan id_user ke dalam session
+                $_SESSION['id_user'] = $id_user;
+
+                // Arahkan ke halaman reset password tanpa id_user di URL
+                header("Location: reset_password");
                 exit(); // Pastikan untuk keluar dari skrip setelah redirect
             } else {
-                echo "<script>alert('User tidak ditemukan!'); window.location.href='otp.php';</script>";
+                echo "<script>alert('User tidak ditemukan!'); window.location.href='otp';</script>";
             }
         } else {
-            echo "<script>alert('OTP expired'); window.location.href='otp.php';</script>";
+            echo "<script>alert('OTP expired'); window.location.href='otp';</script>";
         }
     } else {
-        echo "<script>alert('OTP salah'); window.location.href='otp.php';</script>";
+        echo "<script>alert('OTP salah'); window.location.href='otp';</script>";
     }
 }
 ?>
@@ -106,7 +110,6 @@ if (isset($_POST['submit-otp'])) {
         <h1 style="text-align: center;">Dapatkan OTP untuk Reset Password</h1>
         <center>
             <?php
-            // Jika ada pesan error, tampilkan dalam div alert
             if (isset($error_message)) {
                 echo "<div style='color: red; margin-bottom: 10px;'>$error_message</div>";
             }
