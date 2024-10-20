@@ -12,10 +12,15 @@ Project ini dibuat menggunakan _PHP v8.1.10_ dan _Composer v2.8.1_
 ## Screenshots Aplikasi
 
 ![Landing Page](project_screenshot/landing.jpeg)
+
 ![Login Page](project_screenshot/login.jpeg)
+
 ![OTP Reset Pass Page](project_screenshot/otp.jpeg)
+
 ![Dashboard Page](project_screenshot/dashboard.jpeg)
+
 ![Kas Page](project_screenshot/kas.jpeg)
+
 ![Logout Page](project_screenshot/logout.jpeg)
 
 ## Instalasi dan Menjalankan Project pada Localhost
