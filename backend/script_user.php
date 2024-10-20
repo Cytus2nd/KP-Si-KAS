@@ -19,6 +19,18 @@ if (isset($_POST["tambah"])) {
                     window.location = 'user';
                 });
               </script>";
+    } elseif ($result === 'ada_telp') {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops',
+                    text: 'Nomor telepon telah terdaftar di User Lain.',
+                    icon: 'error',
+                    timer: 8000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'user';
+                });
+              </script>";
     } elseif ($result > 0) {
         echo "<script>
                 Swal.fire({
@@ -53,6 +65,18 @@ if (isset($_POST["ubah"])) {
                 Swal.fire({
                     title: 'Oops...',
                     text: 'Username telah digunakan, silakan gunakan username lain.',
+                    icon: 'error',
+                    timer: 8000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'user';
+                });
+              </script>";
+    } elseif ($result === 'ada_telp') {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops',
+                    text: 'Nomor telepon telah terdaftar di User Lain.',
                     icon: 'error',
                     timer: 8000,
                     confirmButtonText: 'OK'
