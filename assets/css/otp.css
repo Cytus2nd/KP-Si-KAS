@@ -1,4 +1,4 @@
-/* login php */
+/* otp php */
 body {
     background-image: url('../img/bg-otp.jpeg'); /* Replace with the path to your image */
     background-size: cover; /* Ensures the background covers the entire area */
@@ -7,6 +7,5 @@ body {
     background-attachment: fixed; /* Ensures the background stays fixed when scrolling */
     margin: 0;
     padding: 0;
-    opacity: 30;
     height: 100vh;
 }

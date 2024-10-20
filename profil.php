@@ -96,7 +96,7 @@ $user = mysqli_fetch_assoc($result);
                     <div class="mb-3">
                         <div class="form">
                             <label for="password">Password</label>
-                            <input type="password" name="password-1" id="password-1" class="form-control" required>
+                            <input type="password" name="password-1" id="password-1" class="form-control" required minlength="8">
                             <small>*Masukkan Pass anda untuk Ubah Username</small>
                         </div>
                         <div class="form-check pt-1">
@@ -132,7 +132,7 @@ $user = mysqli_fetch_assoc($result);
                     <div class="mb-3">
                         <div class="form">
                             <label for="password">Password</label>
-                            <input type="password" name="password-2" id="password-2" class="form-control" required>
+                            <input type="password" name="password-2" id="password-2" class="form-control" required minlength="8">
                             <small>*Masukkan Pass anda untuk Ubah Username</small>
                         </div>
                         <div class="form-check pt-1">
@@ -170,7 +170,7 @@ $user = mysqli_fetch_assoc($result);
                     <div class="mb-3">
                         <div class="form">
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password-3" class="form-control" required>
+                            <input type="password" name="password" id="password-3" class="form-control" required minlength="8">
                             <small>*Masukkan Pass anda untuk Ubah Username</small>
                         </div>
                         <div class="form-check pt-1">
@@ -205,7 +205,7 @@ $user = mysqli_fetch_assoc($result);
                     <div class="mb-3">
                         <div class="form">
                             <label for="password">Password Lama Anda</label>
-                            <input type="password" name="password_lama" id="password-4" class="form-control" required>
+                            <input type="password" name="password_lama" id="password-4" class="form-control" required minlength="8">
                         </div>
                         <div class="form-check pt-1">
                             <input type="checkbox" class="form-check-input" id="show-password-4">

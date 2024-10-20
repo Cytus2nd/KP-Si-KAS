@@ -195,7 +195,7 @@ $jabatan = select("SELECT * FROM jabatan");
                     <div class="mb-3">
                         <div class="form">
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <input type="password" name="password" id="password" class="form-control" required minlength="8">
                             <small>*Password akan digunakan saat Login</small>
                         </div>
                         <div class="form-check pt-1">
@@ -260,7 +260,7 @@ $jabatan = select("SELECT * FROM jabatan");
                         <div class="mb-3">
                             <div class="form">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password-2" class="form-control" required>
+                                <input type="password" name="password" id="password-2" class="form-control" required minlength="8">
                                 <small>*Masukkan Pass Baru atau Pass Lama</small>
                             </div>
                             <div class="form-check pt-1">
