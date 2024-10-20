@@ -1,5 +1,6 @@
 <?php
 // THIS IS FOR TESTING AND CREATE NEW USER ONLY NOT INTENDED FOR USE
+// NOTE By = Cytus2nd
 session_start();
 include 'config/app.php';
 
