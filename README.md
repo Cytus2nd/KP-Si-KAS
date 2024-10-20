@@ -1,7 +1,7 @@
 # Aplikasi Kas Organisasi berbasis Web - SMA Maitreyawira
 
-Project ini dibuat untuk Sekolah SMAS Maitreyawira Tanjungpinang
-Project ini dibuat menggunakan _PHP v8.1.10_ dan _Composer v2.8.1_
+- Project ini dibuat untuk Sekolah SMAS Maitreyawira Tanjungpinang
+- Project ini dibuat menggunakan _PHP v8.1.10_ dan _Composer v2.8.1_
 
 ## Team Developer
 
