@@ -432,21 +432,37 @@ function create_data_user($post)
     $no_telp = strip_tags($post['no_telp']);
     $is_banned = (int) $post['is_banned'];
 
-    // Escape special characters for use in SQL statement
+    // Escape special characters for use in SQL statements
     $username_safe = mysqli_real_escape_string($conn, $username);
+    $no_telp_safe = mysqli_real_escape_string($conn, $no_telp);
 
-    // Check if a similar username already exists and exclude the current user
+    // Check if a similar username already exists
     $input_usn_query = "SELECT * FROM `users` WHERE `username`='$username_safe'";
     $input_usn = mysqli_query($conn, $input_usn_query);
 
     if (mysqli_num_rows($input_usn) > 0) {
         return 'ada'; // Username already exists
+    }
+
+    // Check if phone number already exists
+    $input_telp_query = "SELECT * FROM `users` WHERE `no_telp`='$no_telp_safe'";
+    $input_telp = mysqli_query($conn, $input_telp_query);
+
+    if (mysqli_num_rows($input_telp) > 0) {
+        return 'ada_telp'; // Phone number already exists
+    }
+
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert new user data into the database
+    $query = "INSERT INTO `users` (`nama`, `username`, `password`, `jabatan`, `no_telp`, `jenis_kelamin`, `is_banned`) 
+              VALUES ('$nama', '$username_safe', '$hashed_password', '$jabatan', '$no_telp_safe', '$jenis_kelamin', '$is_banned')";
+
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn); // Return number of affected rows
     } else {
-        // Hash the password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO `users`(`nama`, `username`, `password`, `jabatan`, `no_telp`, `jenis_kelamin`, `is_banned`) VALUES ('$nama','$username_safe','$hashed_password','$jabatan', '$no_telp', '$jenis_kelamin', '$is_banned')";
-        mysqli_query($conn, $query);
-        return mysqli_affected_rows($conn);
+        return 'error'; // Handle query failure
     }
 }
 
@@ -462,23 +478,48 @@ function update_data_user($post)
     $no_telp = strip_tags($post['no_telp']);
     $is_banned = (int)$post['is_banned'];
 
-    // Escape special characters for use in SQL statement
     $username_safe = mysqli_real_escape_string($conn, $username);
+    $no_telp_safe = mysqli_real_escape_string($conn, $no_telp);
 
-    // Check if a similar username already exists excluding the current user
-    $input_usn_query = "SELECT * FROM `users` WHERE `username`='$username_safe' AND `id_user` != '$id_user'";
+    // Check if the username already exists excluding the current user
+    $input_usn_query = "SELECT * FROM `users` WHERE `username` = '$username_safe' AND `id_user` != '$id_user'";
     $input_usn = mysqli_query($conn, $input_usn_query);
-
     if (mysqli_num_rows($input_usn) > 0) {
         return 'ada'; // Username already exists
-    } else {
-        // Hash the password
+    }
+
+    // Check if the phone number already exists excluding the current user
+    $input_telp_query = "SELECT * FROM `users` WHERE `no_telp` = '$no_telp_safe' AND `id_user` != '$id_user'";
+    $input_telp = mysqli_query($conn, $input_telp_query);
+    if (mysqli_num_rows($input_telp) > 0) {
+        return 'ada_telp'; // Phone number already exists
+    }
+
+    // Handle password: Only update if provided
+    $password_query = "";
+    if (!empty($password)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "UPDATE `users` SET `nama`='$nama', `username`='$username_safe', `password`='$hashed_password', `jabatan`='$jabatan', `no_telp`='$no_telp', `jenis_kelamin`='$jenis_kelamin', `is_banned`='$is_banned' WHERE `id_user`='$id_user'";
-        mysqli_query($conn, $query);
-        return mysqli_affected_rows($conn);
+        $password_query = "`password` = '$hashed_password',";
+    }
+
+    // Update the user data
+    $query = "UPDATE `users` 
+              SET `nama` = '$nama', 
+                  `username` = '$username_safe', 
+                  $password_query 
+                  `jabatan` = '$jabatan', 
+                  `no_telp` = '$no_telp_safe', 
+                  `jenis_kelamin` = '$jenis_kelamin', 
+                  `is_banned` = '$is_banned' 
+              WHERE `id_user` = '$id_user'";
+
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn); // Return affected rows
+    } else {
+        return 'error'; // Query failed
     }
 }
+
 
 function update_usn($post)
 {

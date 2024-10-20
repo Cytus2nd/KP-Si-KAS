@@ -50,8 +50,9 @@ if (isset($_POST['submit-otp'])) {
         $result = curl_exec($curl);
         curl_close($curl);
     } else {
-        // Jika nomor tidak terdaftar, tampilkan alert
-        $error_message = "Nomor HP tidak terdaftar!";
+        // Jika nomor tidak terdaftar, tampilkan alert menggunakan JavaScript
+        echo "<script>alert('Nomor HP tidak terdaftar!'); window.location.href='otp';</script>";
+        exit(); // Keluar dari skrip untuk menghentikan eksekusi lebih lanjut
     }
 } elseif (isset($_POST['submit-login'])) {
     $otp = mysqli_escape_string($conn, $_POST['otp']);
@@ -78,6 +79,7 @@ if (isset($_POST['submit-otp'])) {
             $user_data = mysqli_fetch_array($user_query);
 
             if ($user_data) {
+                $_SESSION['otp_verified'] = true; // Menambahkan session baru
                 $id_user = $user_data['id_user'];
 
                 // Simpan id_user ke dalam session
@@ -103,38 +105,70 @@ if (isset($_POST['submit-otp'])) {
 
 <head>
     <title>Si Kas | Request OTP Reset Password</title>
+    <!-- web icon -->
+    <link rel="icon" href="./assets/img/logo.png" type="image/x-icon">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="app/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="app/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="./assets/css/otp.css">
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
-    <form method="POST" action="" accept-charset="utf-8" style="margin: 100px auto;box-shadow: 0 0 15px -2px lightgray;width:100%;max-width:600px;padding:20px;box-sizing:border-box;">
-        <h1 style="text-align: center;">Dapatkan OTP untuk Reset Password</h1>
-        <center>
-            <?php
-            if (isset($error_message)) {
-                echo "<div style='color: red; margin-bottom: 10px;'>$error_message</div>";
-            }
-            ?>
-            <div style="display: <?php echo isset($_POST['submit-otp']) ? "none" : "flex" ?>;flex-direction:column;margin-bottom:10px;box-sizing:border-box;">
-                <label for="nomor" style="text-align: left;margin-bottom:5px;">Nomor</label>
-                <input placeholder="62812xxxx" name="nomor" type="text" id="nomor" required style="padding:8px;border:2px solid lightgray;border-radius:5px;" <?php if (isset($_POST['submit-otp'])) {
-                                                                                                                                                                    echo "value='$nomor' hidden";
-                                                                                                                                                                } ?> />
+<body class="hold-transition login-page">
+    <div class="login-box bg-light rounded-lg shadow-lg">
+        <div class="login-logo">
+            <img src="./assets/img/logo.png" alt="" class="img-fluid mt-2">
+            <p><b class="fw-bold">SI-Kas Maitreyawira</b></p>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body rounded-lg login-card-body">
+                <p class="login-box-msg text-bold">Verifikasi OTP untuk Reset Password</p>
+                <form method="POST" action="" accept-charset="utf-8">
+                    <!-- Form Nomor HP -->
+                    <div class="form-group mb-3" id="nomor-form" style="<?php echo isset($_POST['submit-otp']) ? 'display: none;' : 'display: block;'; ?>">
+                        <label for="nomor" class="fw-normal">Masukkan Nomor HP yang Terdaftar</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="0812xxxx" name="nomor" type="text" id="nomor" required
+                                <?php if (isset($_POST['submit-otp'])) {
+                                    echo "value='$nomor' hidden";
+                                } ?> />
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <span class="fas fa-phone"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form OTP -->
+                    <div class="form-group mb-3" id="otp-form" style="<?php echo isset($_POST['submit-otp']) ? 'display: block;' : 'display: none;'; ?>">
+                        <label for="otp">Masukkan OTP</label>
+                        <input class="form-control" placeholder="xxxxxx" name="otp" type="text" id="otp" />
+                    </div>
+
+                    <!-- Tombol Request OTP -->
+                    <div class="col-12" style="<?php echo isset($_POST['submit-otp']) ? 'display: none;' : 'display: block;'; ?>">
+                        <button type="submit" id="btn-otp" class="btn btn-primary btn-block" name="submit-otp">Request OTP</button>
+                        <a class="btn btn-danger btn-block" href="login">Kembali ke Halaman Login</a>
+                    </div>
+
+                    <!-- Tombol Reset Password -->
+                    <div class="col-12" style="<?php echo isset($_POST['submit-otp']) ? 'display: block;' : 'display: none;'; ?>">
+                        <button type="submit" id="btn-reset" class="btn btn-primary btn-block" name="submit-login">Submit OTP</button>
+                    </div>
+                </form>
+
+
             </div>
-            <?php
-            if (isset($_POST['submit-otp'])) { ?>
-                <div style="display: flex;flex-direction:column;margin-bottom:10px;">
-                    <label for="otp" style="text-align: left;margin-bottom:5px;box-sizing:border-box;">OTP</label>
-                    <input placeholder="xxxxxx" name="otp" type="text" id="otp" style="padding:8px;border:2px solid lightgray;border-radius:5px;" />
-                </div>
-            <?php }
-            if (!isset($_POST['submit-otp'])) { ?>
-                <button type="submit" id="btn-otp" style="background-color: orange;border:none;padding:8px 16px;color:white;cursor:pointer;" name="submit-otp">Request OTP</button>
-            <?php }
-            if (isset($_POST['submit-otp'])) { ?>
-                <button type="submit" id="btn-login" style="background-color:darkturquoise;border:none;padding:8px 16px;color:white;cursor:pointer;" name="submit-login">Login</button>
-            <?php } ?>
-        </center>
-    </form>
+            <!-- /.login-card-body -->
+        </div>
 </body>
 
 </html>

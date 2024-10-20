@@ -208,9 +208,11 @@ $jabatan = select("SELECT * FROM jabatan");
                         <select name="jabatan" id="jabatan" class="form-select" required>
                             <option value="" disabled selected>Pilih Jabatan</option>
                             <?php foreach ($jabatan as $jb) : ?>
-                                <option value="<?= $jb['kode_jabatan']; ?>">
-                                    <?= htmlspecialchars($jb['nama_jabatan']); ?>
-                                </option>
+                                <?php if ($jb['nama_jabatan'] !== 'Kepala Sekolah') : ?>
+                                    <option value="<?= htmlspecialchars($jb['kode_jabatan']); ?>">
+                                        <?= htmlspecialchars($jb['nama_jabatan']); ?>
+                                    </option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                     </div>

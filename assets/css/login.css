@@ -1,12 +1,17 @@
-/* login php */
 body {
-    background-image: url('../img/smamw.webp'); /* Replace with the path to your image */
-    background-size: cover; /* Ensures the background covers the entire area */
-    background-repeat: no-repeat; /* Prevents the background from repeating */
-    background-position: center; /* Centers the background image */
-    background-attachment: fixed; /* Ensures the background stays fixed when scrolling */
+    background-image: url('../img/bg-log.jpeg'); /* Default background */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     margin: 0;
     padding: 0;
-    opacity: 30;
     height: 100vh;
+}
+
+/* Media query untuk layar dengan lebar maksimum 768px (ukuran tablet atau HP) */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../img/bg-log-hp.jpeg'); /* Ganti dengan path gambar untuk HP */
+    }
 }

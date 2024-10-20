@@ -141,8 +141,8 @@ if (isset($_POST['login'])) {
               </div>
             </div>
           </div>
-          <div class="">
-            <a href="otp">Forgot Password?</a>
+          <div class="mb-3 text-bold">
+            <a href="otp" class="text-danger text-decoration-underline">Forgot Password?</a>
           </div>
           <!-- /.col -->
           <div class="col-12">
