@@ -102,7 +102,7 @@ $jabatan = select("SELECT * FROM jabatan");
                         <tbody>
                             <?php if (empty($data_user)) : ?>
                                 <tr>
-                                    <td colspan="8" class="text-center">Data tidak ada</td>
+                                    <td colspan="10" class="text-center">Data tidak ada</td>
                                 </tr>
                             <?php else : ?>
                                 <?php $no = 1; ?>
