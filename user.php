@@ -258,17 +258,6 @@ $jabatan = select("SELECT * FROM jabatan");
                             <small>*Username akan digunakan saat Login</small>
                         </div>
                         <div class="mb-3">
-                            <div class="form">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password-2" class="form-control" required minlength="8">
-                                <small>*Masukkan Pass Baru atau Pass Lama</small>
-                            </div>
-                            <div class="form-check pt-1">
-                                <input type="checkbox" class="form-check-input" id="show-password-2">
-                                <label class="form-check-label" for="show-password">Show password</label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
                             <label for="jabatan">Jabatan</label>
                             <select name="jabatan" id="jabatan" class="form-select" required>
                                 <?php foreach ($jabatan as $jb) : ?>

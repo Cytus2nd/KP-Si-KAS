@@ -472,7 +472,6 @@ function update_data_user($post)
     $id_user = strip_tags($post['id_user']);
     $nama = strip_tags($post['nama']);
     $username = strip_tags($post['username']);
-    $password = strip_tags($post['password']);
     $jabatan = strip_tags($post['jabatan']);
     $jenis_kelamin = strip_tags($post['jenis_kelamin']);
     $no_telp = strip_tags($post['no_telp']);
@@ -495,18 +494,10 @@ function update_data_user($post)
         return 'ada_telp'; // Phone number already exists
     }
 
-    // Handle password: Only update if provided
-    $password_query = "";
-    if (!empty($password)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $password_query = "`password` = '$hashed_password',";
-    }
-
     // Update the user data
     $query = "UPDATE `users` 
               SET `nama` = '$nama', 
                   `username` = '$username_safe', 
-                  $password_query 
                   `jabatan` = '$jabatan', 
                   `no_telp` = '$no_telp_safe', 
                   `jenis_kelamin` = '$jenis_kelamin', 
