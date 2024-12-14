@@ -206,7 +206,7 @@ include 'backend/script_pmr.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas OSIS</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Kas PMR</h1>
             </div>
             <div class="modal-body">
                 <form action="" method="POST">
@@ -242,7 +242,7 @@ include 'backend/script_pmr.php';
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-success text-white">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas OSIS</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Data Kas PMR</h1>
                     </div>
                     <div class="modal-body">
                         <form action="" method="POST">
