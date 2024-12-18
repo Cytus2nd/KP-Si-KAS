@@ -146,26 +146,21 @@ if (isset($_POST['submit-otp'])) {
                             </div>
                         </div>
                     </div>
-
                     <!-- Form OTP -->
                     <div class="form-group mb-3" id="otp-form" style="<?php echo isset($_POST['submit-otp']) ? 'display: block;' : 'display: none;'; ?>">
                         <label for="otp">Masukkan OTP</label>
                         <input class="form-control" placeholder="xxxxxx" name="otp" type="text" id="otp" />
                     </div>
-
                     <!-- Tombol Request OTP -->
                     <div class="col-12" style="<?php echo isset($_POST['submit-otp']) ? 'display: none;' : 'display: block;'; ?>">
                         <button type="submit" id="btn-otp" class="btn btn-primary btn-block" name="submit-otp">Request OTP</button>
                         <a class="btn btn-danger btn-block" href="login">Kembali ke Halaman Login</a>
                     </div>
-
                     <!-- Tombol Reset Password -->
                     <div class="col-12" style="<?php echo isset($_POST['submit-otp']) ? 'display: block;' : 'display: none;'; ?>">
                         <button type="submit" id="btn-reset" class="btn btn-primary btn-block" name="submit-login">Submit OTP</button>
                     </div>
                 </form>
-
-
             </div>
             <!-- /.login-card-body -->
         </div>

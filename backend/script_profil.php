@@ -148,6 +148,18 @@ if (isset($_POST["ubah_telp"])) {
                     window.location = 'profil';
                 });
               </script>";
+    } elseif ($result === 'telp_exists') {
+        echo "<script>
+                Swal.fire({
+                    title: 'Oops...',
+                    text: 'Nomor Telepon sudah pernah digunakan, Silahkan Hubungi Administrator',
+                    icon: 'error',
+                    timer: 8000,
+                    confirmButtonText: 'OK'
+                }).then(function() {
+                    window.location = 'profil';
+                });
+              </script>";
     } elseif ($result > 0) {
         echo "<script>
                 Swal.fire({

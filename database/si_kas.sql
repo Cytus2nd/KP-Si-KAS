@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 02, 2024 at 12:56 PM
+-- Generation Time: Dec 18, 2024 at 05:23 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -43,9 +43,9 @@ CREATE TABLE `data_organisasi` (
 
 INSERT INTO `data_organisasi` (`id_organisasi`, `nama_organisasi`, `ketua_organisasi`, `pembina_organisasi`, `id_user_bendahara`, `last_edit_by`, `last_edit`) VALUES
 (1, 'OSIS', 'Hendri', 'Pak Dunandszjs', 16, 2, '2024-07-30 10:44:05'),
-(2, 'Pramuka', 'Hendra', 'Pak Denands', 2, 2, '2024-07-30 10:44:35'),
-(3, 'PMR', 'Kasirun', 'Dio Brando', 2, 2, '2024-07-30 10:44:35'),
-(4, 'KKR', 'Unknown', 'Unknown', 2, 2, '2024-07-30 10:44:35');
+(2, 'Pramuka', 'Hendra', 'Pak Denands', 17, 2, '2024-07-30 10:44:35'),
+(3, 'PMR', 'Kasirun', 'Dio Brando', 18, 2, '2024-07-30 10:44:35'),
+(4, 'KKR', 'Wijaya Purnama', 'Pak Kusno', 19, 2, '2024-07-30 10:44:35');
 
 -- --------------------------------------------------------
 
@@ -87,6 +87,13 @@ CREATE TABLE `kas_kkr` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `kas_kkr`
+--
+
+INSERT INTO `kas_kkr` (`id_kas_kkr`, `jumlah`, `keterangan`, `tipe_kas`, `id_user`, `created_at`) VALUES
+(1, 10000, 'Inputan Kas oleh OSIS', 'pemasukan', 2, '2024-12-18 04:29:08');
+
 -- --------------------------------------------------------
 
 --
@@ -101,6 +108,13 @@ CREATE TABLE `kas_osis` (
   `id_user` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `kas_osis`
+--
+
+INSERT INTO `kas_osis` (`id_kas_osis`, `jumlah`, `keterangan`, `tipe_kas`, `id_user`, `created_at`) VALUES
+(1, 50000, 'Inputan Kas oleh OSIS', 'pemasukan', 2, '2024-12-18 04:29:08');
 
 -- --------------------------------------------------------
 
@@ -117,6 +131,13 @@ CREATE TABLE `kas_pmr` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `kas_pmr`
+--
+
+INSERT INTO `kas_pmr` (`id_kas_pmr`, `jumlah`, `keterangan`, `tipe_kas`, `id_user`, `created_at`) VALUES
+(1, 10000, 'Inputan Kas oleh OSIS', 'pemasukan', 2, '2024-12-18 04:29:08');
+
 -- --------------------------------------------------------
 
 --
@@ -131,6 +152,37 @@ CREATE TABLE `kas_pramuka` (
   `id_user` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `kas_pramuka`
+--
+
+INSERT INTO `kas_pramuka` (`id_kas_pramuka`, `jumlah`, `keterangan`, `tipe_kas`, `id_user`, `created_at`) VALUES
+(1, 30000, 'Inputan Kas oleh OSIS', 'pemasukan', 2, '2024-12-18 04:29:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otp`
+--
+
+CREATE TABLE `otp` (
+  `id` int NOT NULL,
+  `nomor` varchar(25) NOT NULL,
+  `otp` int NOT NULL,
+  `waktu` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `otp`
+--
+
+INSERT INTO `otp` (`id`, `nomor`, `otp`, `waktu`) VALUES
+(1, '82176576399', 697625, 1727425286),
+(6, '6281224838155', 210678, 1727427609),
+(9, '6282176576399', 625222, 1727688334),
+(59, '081266519499', 672235, 1729331759),
+(88, '082176576399', 792575, 1734498774);
 
 -- --------------------------------------------------------
 
@@ -155,11 +207,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama`, `username`, `password`, `jabatan`, `jenis_kelamin`, `no_telp`, `is_banned`, `created_at`) VALUES
-(2, 'Hendri', 'hendri1', '$2y$10$6RAzhNxyxERHG3SQuTFQEepaCPOZrMYRCIewsYXUCugWHOx73dbnm', 1, 'laki-laki', '088899990001', '0', '2024-07-27 15:43:38'),
-(16, 'Hendra', 'hendri2', '$2y$10$UyGDgsdqW1ciFFo7.a0Uo.eh62UcQcS/dgBBlcojv0u37YYjcJeiO', 3, 'laki-laki', '081213141517', '0', '2024-08-02 12:48:42'),
-(17, 'Hendri', 'hendri4', '$2y$10$sfdajPRqCbE3Bqhj3dKFReMTJfQbSWG5UIuRsGSCCDscRJF5i2Gnm', 4, 'laki-laki', '081213141518', '0', '2024-08-02 14:21:56'),
-(18, 'Hendri', 'hendri5', '$2y$10$clYcvoukorq1Uq5W9Ed9AeIBfUqiToQUgoaxpKAR7El98qJG38M12', 5, 'laki-laki', '081213141519', '0', '2024-08-02 14:22:33'),
-(19, 'Hendri', 'hendri6', '$2y$10$kp0lad.2p4.8B1j0mcMXTO6.3LfojQFl9N0OWpNX3fUv07bkTwTS.', 6, 'laki-laki', '081213141520', '0', '2024-08-02 14:23:15');
+(2, 'Hendri', 'kepsek', '$2y$10$HF8PEsJ6hHk0LgUQIhbGGOLFUHvS3zawwDFX8wmEhpmlOumoYOlfW', 1, 'laki-laki', '082176576399', '0', '2024-07-27 15:43:38'),
+(16, 'Farzy', 'osis', '$2y$10$ziArKPbm65zUdB7Z08u9.ObLW0Leyr4Jw4kx2EGl0nvbiFlnKxMha', 3, 'laki-laki', '082176576398', '0', '2024-08-02 12:48:42'),
+(17, 'Jaya Purnama', 'pramuka', '$2y$10$830F.yxfP2LaBHCvB8R1JuEW3h.cy7HrxtKtfgn1a4erFF74rpVci', 4, 'laki-laki', '089989890001', '0', '2024-08-02 14:21:56'),
+(18, 'Friska', 'pmr', '$2y$10$T8u3P/uQ8G54mTz16aWQi.EG2F32VjyIgOzV3l.c37a0OMjh3..yy', 5, 'perempuan', '089985850019', '0', '2024-08-02 14:22:33'),
+(19, 'Rio Febryan', 'kkr', '$2y$10$WwaVgwGe.NLADVQIGy7xYuBpAzeHTZSX6MK3r2sbCKnyQJdljFJEa', 6, 'laki-laki', '087788889797', '0', '2024-08-02 14:23:15');
 
 --
 -- Indexes for dumped tables
@@ -209,6 +261,12 @@ ALTER TABLE `kas_pramuka`
   ADD KEY `id_user` (`id_user`);
 
 --
+-- Indexes for table `otp`
+--
+ALTER TABLE `otp`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -237,25 +295,31 @@ ALTER TABLE `jabatan`
 -- AUTO_INCREMENT for table `kas_kkr`
 --
 ALTER TABLE `kas_kkr`
-  MODIFY `id_kas_kkr` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kas_kkr` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kas_osis`
 --
 ALTER TABLE `kas_osis`
-  MODIFY `id_kas_osis` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kas_osis` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kas_pmr`
 --
 ALTER TABLE `kas_pmr`
-  MODIFY `id_kas_pmr` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kas_pmr` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kas_pramuka`
 --
 ALTER TABLE `kas_pramuka`
-  MODIFY `id_kas_pramuka` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kas_pramuka` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `otp`
+--
+ALTER TABLE `otp`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `users`

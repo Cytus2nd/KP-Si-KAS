@@ -592,17 +592,26 @@ function update_telp($post)
     $password = strip_tags($post['password']);
     $telepon = strip_tags($post['no_telp']);
 
+    // Cek apakah nomor telepon sudah terdaftar pada user lain
+    $check_query = "SELECT id_user FROM users WHERE no_telp = '$telepon' AND id_user != '$id_user'";
+    $check_result = mysqli_query($conn, $check_query);
+    if (mysqli_num_rows($check_result) > 0) {
+        return 'telp_exists'; // Nomor telepon sudah digunakan oleh user lain
+    }
+
+    // Verifikasi password pengguna
     $pass_query = "SELECT password FROM users WHERE id_user = '$id_user'";
     $pass_verf = mysqli_query($conn, $pass_query);
     $row = mysqli_fetch_assoc($pass_verf);
-    $password_db = $row['password'];
 
+    $password_db = $row['password'];
     if (password_verify($password, $password_db)) {
+        // Update nomor telepon
         $query = "UPDATE `users` SET `no_telp`='$telepon' WHERE `id_user`='$id_user'";
         mysqli_query($conn, $query);
         return mysqli_affected_rows($conn);
     } else {
-        return 'pass_err';
+        return 'pass_err'; // Password salah
     }
 }
 
