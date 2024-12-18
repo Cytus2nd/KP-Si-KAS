@@ -117,7 +117,7 @@ include 'backend/script_pmr.php';
                                 <th>Jumlah Kas</th>
                                 <th>Tipe Kas</th>
                                 <th>Keterangan</th>
-                                <th>Last Edit At</th>
+                                <th>Tanggal Kas</th>
                                 <th>Last Edit By</th>
                                 <th>Aksi</th>
                             </tr>
