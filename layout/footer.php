@@ -65,21 +65,29 @@
         }
 
         // Fungsi untuk membuat chart garis
-        function createLineChart(elementId, data) {
+        function createBarChart(elementId, data) {
             var canvas = $('#' + elementId);
             if (canvas.length) {
                 var context = canvas.get(0).getContext('2d');
                 new Chart(context, {
-                    type: 'line',
+                    type: 'bar',
                     data: {
                         labels: ['Pemasukan', 'Pengeluaran'],
                         datasets: [{
-                            label: 'Keuangan',
-                            data: data,
-                            backgroundColor: 'rgba(60,141,188,0.9)',
-                            borderColor: 'rgba(60,141,188,0.8)',
-                            fill: false,
-                        }]
+                                label: 'Pemasukan',
+                                data: [data[0], 0],
+                                backgroundColor: '#00a65a', // Warna hijau
+                                barPercentage: 2,
+                                categoryPercentage: 2 // Menyesuaikan posisi tengah
+                            },
+                            {
+                                label: 'Pengeluaran',
+                                data: [0, data[1]],
+                                backgroundColor: '#f56954', // Warna merah
+                                barPercentage: 2,
+                                categoryPercentage: 2
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
@@ -111,19 +119,19 @@
 
         // Membuat chart OSIS
         createDonutChart('donutChartOsis', [pemasukan_osis, pengeluaran_osis]);
-        createLineChart('lineChartOsis', [pemasukan_osis, pengeluaran_osis]);
+        createBarChart('lineChartOsis', [pemasukan_osis, pengeluaran_osis]);
 
         // Membuat chart Pramuka
         createDonutChart('donutChartPr', [pemasukan_pramuka, pengeluaran_pramuka]);
-        createLineChart('lineChartPr', [pemasukan_pramuka, pengeluaran_pramuka]);
+        createBarChart('lineChartPr', [pemasukan_pramuka, pengeluaran_pramuka]);
 
         // Membuat chart PMR
         createDonutChart('donutChartPm', [pemasukan_pmr, pengeluaran_pmr]);
-        createLineChart('lineChartPm', [pemasukan_pmr, pengeluaran_pmr]);
+        createBarChart('lineChartPm', [pemasukan_pmr, pengeluaran_pmr]);
 
         // Membuat chart KKR
         createDonutChart('donutChartKk', [pemasukan_kkr, pengeluaran_kkr]);
-        createLineChart('lineChartKk', [pemasukan_kkr, pengeluaran_kkr]);
+        createBarChart('lineChartKk', [pemasukan_kkr, pengeluaran_kkr]);
     });
 </script>
 

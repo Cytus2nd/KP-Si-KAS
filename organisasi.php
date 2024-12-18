@@ -25,8 +25,9 @@ $data_organisasi = select("SELECT o.*, u.nama as nama_bendahara, ue.nama as last
 
 
 // Fetch all users
-$users = select("SELECT * FROM users");
-
+$users = select("SELECT u.id_user, u.nama, j.nama_jabatan 
+FROM users u 
+LEFT JOIN jabatan j ON u.jabatan = j.id_jabatan WHERE is_banned = '0'");
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -125,7 +126,7 @@ $users = select("SELECT * FROM users");
                             <select name="id_user_bendahara" id="id_user_bendahara" class="form-select" required>
                                 <?php foreach ($users as $user) : ?>
                                     <option value="<?= $user['id_user']; ?>" <?= $organisasi['id_user_bendahara'] == $user['id_user'] ? 'selected' : ''; ?>>
-                                        <?= htmlspecialchars($user['nama']); ?>
+                                        <?= htmlspecialchars($user['nama']); ?> - <?= htmlspecialchars($user['nama_jabatan']); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

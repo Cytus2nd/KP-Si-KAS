@@ -86,7 +86,7 @@ include 'layout/header.php';
                     <div class="col-lg-5">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title fw-bold">Line Chart OSIS</h3>
+                                <h3 class="card-title fw-bold">Bar Chart OSIS</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -152,7 +152,7 @@ include 'layout/header.php';
                     <div class="col-lg-5">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title fw-bold">Line Chart Pramuka</h3>
+                                <h3 class="card-title fw-bold">Bar Chart Pramuka</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -218,7 +218,7 @@ include 'layout/header.php';
                     <div class="col-lg-5">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title fw-bold">Line Chart PMR</h3>
+                                <h3 class="card-title fw-bold">Bar Chart PMR</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -284,7 +284,7 @@ include 'layout/header.php';
                     <div class="col-lg-5">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title fw-bold">Line Chart KKR</h3>
+                                <h3 class="card-title fw-bold">Bar Chart KKR</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>

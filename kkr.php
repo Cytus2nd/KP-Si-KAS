@@ -222,7 +222,10 @@ include 'backend/script_kkr.php';
                     <div class="mb-3">
                         <label for="tipe_kas">Tipe Kas</label>
                         <select name="tipe_kas" id="tipe_kas" class="form-select" required>
-                            <option value="pengeluaran" selected>Pengeluaran</option>
+                            <?php if ($_SESSION['jabatan'] == 1 || $_SESSION['jabatan'] == 2) : ?>
+                                <option value="pemasukan">Pemasukan</option>
+                            <?php endif ?>
+                            <option value="pengeluaran">Pengeluaran</option>
                         </select>
                     </div>
                     <div class="modal-footer">
